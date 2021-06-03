@@ -1,0 +1,11 @@
+﻿<dx:ThemedWindow
+    x:Class="TradersToolbox.Views.TradeStationLogInWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    Title="TradeStation Log In" WindowStartupLocation="CenterOwner" Height="600" Width="800"
+    Loaded="ThemedWindow_Loaded">
+    <Grid>
+        <WebBrowser x:Name="webBrowser" LoadCompleted="webBrowser_LoadCompleted" />
+    </Grid>
+</dx:ThemedWindow>

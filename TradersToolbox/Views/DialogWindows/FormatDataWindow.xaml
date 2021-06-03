@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="TradersToolbox.Views.DialogWindows.FormatDataWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TradersToolbox.Views.DialogWindows"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d" Loaded="UserControl_Loaded" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Vertical"  Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+            <TextBlock Text="Symbol:"/>
+            <TextBox Text="{Binding SymbolName}" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Column="0" Margin="2">
+                <TextBlock Text="Time zone:"/>
+                <ComboBox ItemsSource="{Binding TimeZones}" SelectedValue="{Binding CurentTimeZone}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DisplayName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
+                <TextBlock Text="Time frame:"/>
+                
+                <StackPanel Orientation="Vertical" Margin="2">
+                    <TextBlock Text="Measure Unit:"/>
+                    <ComboBox ItemsSource="{Binding MeasureUnits}"  SelectedValue="{Binding MeasureUnit}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                    <TextBlock Text="{Binding .}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Text="Measure Value:"/>
+                    <TextBox VerticalAlignment="Top" Text="{Binding SelectedInterval.MeasureUnitMultiplier}"/>
+                    
+                </StackPanel>
+                
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical" Margin="2">
+                <RadioButton x:Name="FirstData_RadioButton" Checked="FirstData_RadioButton_Checked" Content="First Data" GroupName="History"/>
+                <RadioButton x:Name="BarsBack_RadioButton" Checked="BarsBack_RadioButton_Checked" Content="Number of Bars Back" GroupName="History"/>
+                <RadioButton x:Name="YearsBack_RadioButton" Checked="YearsBack_RadioButton_Checked" Content="Number of Years Back" GroupName="History"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
+                <StackPanel Orientation="Vertical" x:Name="DateTimeStart_Grid" Visibility="Collapsed">
+                    <TextBlock Text="Start date:"/>
+                    <dxe:DateEdit DateTime="{Binding CurrentHistorySettings.TimeStart}" />
+                </StackPanel>
+                <StackPanel Orientation="Vertical"  x:Name="IntBars_Grid" Visibility="Collapsed">
+                    <TextBlock Text="Bars back:"/>
+                    <TextBox Text="{Binding CurrentHistorySettings.BarsBack}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical"  x:Name="YearsBack_Grid" Visibility="Collapsed">
+                    <TextBlock Text="Years back:"/>
+                    <TextBox Text="{Binding CurrentHistorySettings.YearsBack}"/>
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical" Margin="2">
+                <RadioButton x:Name="Candle_RadioButton" Checked="Candle_RadioButton_Checked" Content="Candle" GroupName="Chart"/>
+                <RadioButton x:Name="HollowCandle_RadioButton" Checked="HollowCandle_RadioButton_Checked" Content="Hollow candle" GroupName="Chart"/>
+                <RadioButton x:Name="PriceBar_RadioButton" Checked="PriceBar_RadioButton_Checked" Content="Price bar" GroupName="Chart"/>
+                <RadioButton x:Name="Line_RadioButton" Checked="Line_RadioButton_Checked" Content="Line" GroupName="Chart"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="2">
+                <TextBlock Text="Background color:"/>
+                <dxe:PopupColorEdit Color="{Binding CurrentChartData.BackgroundColor, Mode=TwoWay}"/>
+                <StackPanel Orientation="Vertical"  x:Name="UpDown_Grid" Visibility="Collapsed">
+                    <TextBlock Text="Up color:"/>
+                    <dxe:PopupColorEdit Color="{Binding CurrentChartData.UpColor, Mode=TwoWay}"/>
+                    <TextBlock Text="Down color:"/>
+                    <dxe:PopupColorEdit Color="{Binding CurrentChartData.DownColor, Mode=TwoWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" x:Name="Line_Grid" Visibility="Collapsed">
+                    <TextBlock Text="Line color:"/>
+                    <dxe:PopupColorEdit Color="{Binding CurrentChartData.LineColor, Mode=TwoWay}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</UserControl>

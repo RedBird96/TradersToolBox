@@ -1,0 +1,431 @@
+﻿<UserControl xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:local="clr-namespace:TradersToolbox.Core;assembly=TradersToolbox.Core"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:properties="clr-namespace:TradersToolbox.Properties"
+             xmlns:Custom="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/internal"
+             xmlns:Custom1="http://schemas.devexpress.com/winfx/2008/xaml/windowsui/themekeys"
+             x:Name="uControl"
+             x:Class="TradersToolbox.Views.StrategiesView"
+             mc:Ignorable="d"
+             d:DesignHeight="650" d:DesignWidth="800">
+    <!-- DataContext="{dxmvvm:ViewModelSource Type=ViewModels:StrategiesViewModel}"-->
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="bToVis"/>
+    </UserControl.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding LoadedCommand}"/>
+        <dxmvvm:EventToCommand EventName="Unloaded" Command="{Binding UnloadedCommand}"/>
+        <dx:DXMessageBoxService/>
+        <dx:WindowedDocumentUIService SetWindowOwner="False" WindowStartupLocation="Manual">
+            <dx:WindowedDocumentUIService.WindowStyle>
+                <Style TargetType="{x:Type dx:ThemedWindow}">
+                    <Setter Property="MinWidth" Value="300"/>
+                    <Setter Property="MinHeight" Value="300"/>
+                    <Setter Property="Width" Value="{Binding WindowWidth, Mode=TwoWay}"/>
+                    <Setter Property="Height" Value="{Binding WindowHeight, Mode=TwoWay}"/>
+                    <!--<Setter Property="HeaderBackground" Value="White"/>
+                    <Setter Property="ResizeBorderThickness" Value="10"/>
+                    <Setter Property="Padding" Value="0"/>-->
+                    <Setter Property="UseLayoutRounding" Value="True" />
+                    <Setter Property="TitleAlignment" Value="Center" />
+                    <Setter Property="ToolbarItemsSource" Value="{Binding MenuModel}" />
+                    <Setter Property="ToolbarItemTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <dxb:MainMenuControl VerticalAlignment="Center">
+                                    <dxb:BarSubItem Content="File">
+                                        <dxb:BarButtonItem Content="{Binding}" Command="{DXBinding @a($dx:ThemedWindow).DataContext.SaveCommand}"
+                                                   Glyph="{dx:DXImage SvgImages/Save/Save.svg}"  KeyGesture="CTRL+S"/>
+                                    </dxb:BarSubItem>
+                                </dxb:MainMenuControl>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ToolbarItemContainerStyle">
+                        <Setter.Value>
+                            <Style TargetType="{x:Type dx:HeaderItemControl}">
+                                <Setter Property="ShowBorder" Value="False"/>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </dx:WindowedDocumentUIService.WindowStyle>
+        </dx:WindowedDocumentUIService>
+        <dxmvvm:SaveFileDialogService/>
+        <dx:DialogService x:Name="TestSettingsDialog">
+            <dx:DialogService.DialogStyle>
+                <Style TargetType="{x:Type dx:DXDialogWindow}">
+                    <Setter Property="Width" Value="800"/>
+                    <Setter Property="Height" Value="520"/>
+                    <Setter Property="MinWidth" Value="720"/>
+                    <Setter Property="MinHeight" Value="520"/>
+                    <Setter Property="CommandButtonStyle">
+                        <Setter.Value>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="MinWidth" Value="100"/>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </dx:DialogService.DialogStyle>
+        </dx:DialogService>
+        <dx:DialogService x:Name="ReRunDialog">
+            <dx:DialogService.DialogStyle>
+                <Style TargetType="{x:Type dx:ThemedWindow}">
+                    <Setter Property="Width" Value="{Binding SimTaskWindowWidth, Mode=OneTime, Source={x:Static properties:Settings.Default}}"/>
+                    <Setter Property="Height" Value="{Binding SimTaskWindowHeight, Mode=OneTime, Source={x:Static properties:Settings.Default}}"/>
+                    <Setter Property="MinWidth" Value="970"/>
+                    <Setter Property="MinHeight" Value="630"/>
+                </Style>
+            </dx:DialogService.DialogStyle>
+        </dx:DialogService>
+        <dx:DialogService x:Name="AddToFavoritesDialog">
+            <dx:DialogService.DialogStyle>
+                <Style TargetType="{x:Type dx:ThemedWindow}">
+                    <Setter Property="Width" Value="400"/>
+                    <Setter Property="Height" Value="500"/>
+                    <Setter Property="MinWidth" Value="300"/>
+                    <Setter Property="MinHeight" Value="300"/>
+                </Style>
+            </dx:DialogService.DialogStyle>
+        </dx:DialogService>
+        <dx:DialogService x:Name="AddRuleDialog">
+            <dx:DialogService.DialogStyle>
+                <Style TargetType="{x:Type dx:ThemedWindow}">
+                    <Setter Property="Width" Value="700"/>
+                    <Setter Property="Height" Value="600"/>
+                    <Setter Property="MinWidth" Value="500"/>
+                    <Setter Property="MinHeight" Value="500"/>
+                    <Setter Property="TitleAlignment" Value="Center"/>
+                </Style>
+            </dx:DialogService.DialogStyle>
+        </dx:DialogService>
+        <dxmvvm:WindowService x:Name="OptimizationWindow">
+            <dxmvvm:WindowService.WindowStyle>
+                <Style TargetType="{x:Type dx:ThemedWindow}">
+                    <Setter Property="MinWidth" Value="600"/>
+                    <Setter Property="MinHeight" Value="550"/>
+                    <Setter Property="Width" Value="{Binding WindowWidth, Mode=TwoWay}"/>
+                    <Setter Property="Height" Value="{Binding WindowHeight, Mode=TwoWay}"/>
+                    <Setter Property="UseLayoutRounding" Value="True" />
+                    <Setter Property="TitleAlignment" Value="Center" />
+                    <Setter Property="Title" Value="Optimization and Sensitivity" />
+                </Style>
+            </dxmvvm:WindowService.WindowStyle>
+        </dxmvvm:WindowService>
+    </dxmvvm:Interaction.Behaviors>
+
+    <Grid x:Name="mainGrid">
+        <dxwui:HamburgerMenu FlowDirection="RightToLeft" AvailableViewStates="Inline" ViewState="CompactInline"
+                             BottomBarBackground="#FFC98282"
+                             HeaderHeight="30" IsInitiallyCompact="True" CompactWidth="30" dx:ThemeManager.ThemeChanged="HamburgerMenu_ThemeChanged">
+            <dxwui:HamburgerMenu.Resources>
+                <Style TargetType="{x:Type dxwui:HamburgerMenuNavigationButton}">
+                    <Setter Property="GlyphHeight" Value="20"/>
+                    <Setter Property="GlyphWidth" Value="20"/>
+                    <Setter Property="SelectOnClick" Value="False"/>
+                    <Setter Property="FontWeight" Value="Medium"/>
+                    <Setter Property="MinHeight" Value="22"/>
+                    <Setter Property="Padding" Value="0,4"/>
+                    <Setter Property="VerticalContentAlignment" Value="Top"/>
+                    <!--<Setter Property="Foreground" Value="#202020"/>-->
+                </Style>
+                <Style TargetType="{x:Type dxwui:HamburgerMenuItemSeparator}">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Style>
+            </dxwui:HamburgerMenu.Resources>
+
+            <!--<dxwui:HamburgerMenu.PaneBackground>
+                <LinearGradientBrush EndPoint="1,0.5" MappingMode="RelativeToBoundingBox" StartPoint="0,0.5">
+                    <GradientStop Color="#FFB4B4B4" Offset="0.1"/>
+                    <GradientStop Color="#FFD4D4D4" Offset="1"/>
+                    --><!--<GradientStop Color="{Binding ElementName=uControl, Path=Background}" Offset="1"/>--><!--
+                </LinearGradientBrush>
+            </dxwui:HamburgerMenu.PaneBackground>-->
+
+            <dxwui:HamburgerMenu.Content>
+
+                <dx:DXTabControl FlowDirection="LeftToRight" x:Name="tabs" ItemsSource="{Binding StrategiesLists}"
+                                 Padding="0" SelectedIndex="{Binding TabSelectedIndex}" TabContentCacheMode="CacheAllTabs" Margin="2,0,0,0">
+                    <!--<dx:DXTabControl.View>
+                        <dx:TabControlMultiLineView HeaderLocation="{Binding TabHeaderLocation, Mode=OneWay}"/>
+                    </dx:DXTabControl.View>-->
+                    <dx:DXTabControl.ControlBoxLeftTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Dataset:" VerticalAlignment="Center" Margin="20,0"/>
+                            <!--<dxb:BarManager ToolbarGlyphSize="Small" VerticalAlignment="Bottom">
+                                <dxb:BarManager.Resources>
+                                    <Style TargetType="{x:Type dxb:BarButtonItem}">
+                                        <Setter Property="ContentTemplate">
+                                            <Setter.Value>
+                                                <DataTemplate>
+                                                    <Border MinWidth="15">
+                                                        <ContentPresenter HorizontalAlignment="Center" Content="{Binding}"/>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </dxb:BarManager.Resources>
+                                <dxb:BarManager.Bars>
+                                    <dxb:Bar Caption="MainBar" AllowCustomizationMenu="False" AllowQuickCustomization="False" AllowRemove="False" ShowDragWidget="False">
+                                        <dxb:BarButtonItem x:Name="EC" Content="EC" Command="{Binding EquityCurveCommand}" ToolTip="Equity Curve" />
+                                        <dxb:BarButtonItem x:Name="Metrics" Content="{DXBinding @a($dx:DXTabControl).SelectedValue.IsPortfolio ? `CE` : `M`}"
+                                                Command="{Binding MetricsCommand}"
+                                                ToolTip="{DXBinding @a($dx:DXTabControl).SelectedValue.IsPortfolio ? `Cumulative Equity Curve` : `Metrics`}" />
+
+                                        <dxb:BarSubItem x:Name="MC" Content="Monte Carlo">
+                                            <dxb:BarButtonItem x:Name="EquityBands" Content="Equity Bands" Command="{Binding MCEquityBandsCommand}" />
+                                            <dxb:BarButtonItem x:Name="DD" Content="Draw Down" Command="{Binding MCDrawdownCommand}" />
+                                            <dxb:BarButtonItem x:Name="Analysis" Content="Analysis" Command="{Binding MCAnalysisCommand}"/>
+                                        </dxb:BarSubItem>
+
+                                        <dxb:BarButtonItem x:Name="Variance" Content="V" Command="{Binding VarianceCommand}" ToolTip="Variance Testing" />
+                                        <dxb:BarButtonItem x:Name="Robustness" Content="R" Command="{Binding RobustnessCommand}" ToolTip="Robustness Testing" />
+                                        <dxb:BarButtonItem x:Name="MinVariance" Content="MV" Command="{Binding MinVarianceCommand}" ToolTip="Minimum Variance Testing"
+                                                   IsVisible="{DXBinding @a($dx:DXTabControl).SelectedValue.IsPortfolio}"/>
+                                        <dxb:BarButtonItem x:Name="Noise" Content="{DXBinding @a($dx:DXTabControl).SelectedValue.IsPortfolio ? `C` : `N`}"
+                                                   Command="{Binding NoiseCommand}"
+                                                   ToolTip="{DXBinding @a($dx:DXTabControl).SelectedValue.IsPortfolio ? `Check Correlation` : `Noise Test`}" />
+                                        <dxb:BarButtonItem x:Name="IntradayChecks" Content="IC" Command="{Binding IntradayChecksCommand}" ToolTip="Intraday Checks"
+                                                   IsVisible="{DXBinding !(@a($dx:DXTabControl).SelectedValue.IsPortfolio)}"/>
+                                        <dxb:BarButtonItem x:Name="IntradayEdge" Content="IE" Command="{Binding IntradayEdgeCommand}" ToolTip="Intraday Edge" />
+                                        <dxb:BarButtonItem x:Name="SignalBreakdown" Content="SB" Command="{Binding SignalBreakdownCommand}" ToolTip="Signal Breakdown" />
+
+                                        <dxb:BarSubItem x:Name="CodeGenerators" Content="&lt;/code&gt;" Foreground="DarkOliveGreen" ToolTip="Code generators">
+                                            <dxb:BarButtonItem x:Name="EL" Content="EL code generator" Command="{Binding ELcodeGenCommand}" />
+                                            <dxb:BarButtonItem x:Name="NT" Content="NT code generator"  Command="{Binding NTcodeGenCommand}" />
+                                            <dxb:BarButtonItem x:Name="MT" Content="MT4 code generator" Command="{Binding MTcodeGenCommand}" />
+                                            <dxb:BarButtonItem x:Name="Python" Content="Python code generator" Command="{Binding PythonCodeGenCommand}"/>
+                                            <dxb:BarButtonItem x:Name="PRT" Content="PRT code generator" Command="{Binding PRTcodeGenCommand}" />
+                                        </dxb:BarSubItem>
+                                        <dxb:BarItemSeparator/>
+                                        <dxb:BarButtonItem x:Name="Export" Content="CSV" ToolTip="Export to CSV" Command="{Binding ExportCommand}" Glyph="{dx:DXImage SvgImages/Export/ExportToCSV.svg}"/>
+                                        <dxb:BarItemSeparator/>
+                                        <dxb:BarButtonItem x:Name="Settings" Glyph="{dx:DXImage SvgImages/HybridDemoIcons/BottomPanel/HybridDemo_Settings.svg}"
+                                                   ToolTip="Test settings" Command="{Binding TestSettingsCommand}" />
+                                        <dxb:BarItemSeparator/>
+                                        <dxb:BarStaticItem />
+                                    </dxb:Bar>
+                                </dxb:BarManager.Bars>
+                            </dxb:BarManager>-->
+                        </DataTemplate>
+                    </dx:DXTabControl.ControlBoxLeftTemplate>
+
+                    <!--<dx:DXTabControl.ControlBoxRightTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Deposit:" VerticalAlignment="Center"/>
+                                <TextBlock Text="100 354" VerticalAlignment="Center" Margin="5,0"/>
+                            </StackPanel>                            
+                        </DataTemplate>
+                    </dx:DXTabControl.ControlBoxRightTemplate>-->
+                    
+                    <dx:DXTabControl.ItemTemplate>
+                        <DataTemplate>
+                            <!--<dx:PLinqInstantFeedbackDataSource Name="pLinqInstantDataSource" ListSource="{Binding Path=Strategies}" />-->
+                            <dxg:GridControl ItemsSource="{Binding Strategies}" ShowBorder="False"
+                                     DesignTimeDataObjectType="{x:Type local:SimStrategy}" DesignTimeDataSourceRowCount="10"
+                                     SelectedItems="{Binding SelectedStrategies}">
+                                <dxg:GridControl.Resources>
+                                    <Style TargetType="{x:Type dxg:GridColumn}">
+                                        <Setter Property="HorizontalHeaderContentAlignment" Value="Center"/>
+                                        <Setter Property="MinWidth" Value="70"/>
+                                    </Style>
+                                    <dxe:TextEditSettings x:Key="textEditF2Format" MaskType="Numeric" DisplayFormat="F2"/>
+                                    <dxe:TextEditSettings x:Key="textEditF3Format" MaskType="Numeric" DisplayFormat="F3"/>
+                                    <dxe:TextEditSettings x:Key="textEditF4Format" MaskType="Numeric" DisplayFormat="F4"/>
+                                    <dxe:TextEditSettings x:Key="textEditF6Format" MaskType="Numeric" DisplayFormat="F6"/>
+                                </dxg:GridControl.Resources>
+                                <dxg:GridControl.View>
+                                    <dxg:TreeListView AllowEditing="False" ShowIndicator="False" VerticalScrollbarVisibility="Auto"
+                                           ShowHorizontalLines="False" AllowScrollAnimation="True" HighlightItemOnHover="True" UseEvenRowBackground="True"
+                                           BestFitModeOnSourceChange="AllRows" BestFitMaxRowCount="1000" BestFitArea="Rows" 
+                                           TreeDerivationMode="ChildNodesSelector" ChildNodesPath="Children" MultiSelectMode="Row" EnableImmediatePosting="True"
+                                           >
+                                        <dxmvvm:Interaction.Behaviors>
+                                            <dxmvvm:EventToCommand EventName="RowDoubleClick" Command="{Binding DataContext.RowDoubleClickCommand, ElementName=tabs}"
+                                                          PassEventArgsToCommand="True"/>
+                                        </dxmvvm:Interaction.Behaviors>
+                                        <dxg:TreeListView.ColumnHeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}" TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" TextAlignment="Center"
+                                           Foreground="{DynamicResource GridControlHeaderTextColour}"/>
+                                            </DataTemplate>
+                                        </dxg:TreeListView.ColumnHeaderTemplate>
+                                        <dxg:TreeListView.RowCellMenuCustomizations>
+                                            <dxb:BarButtonItem Content="Add selected to portfolio" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Add.svg}"
+                                                       IsVisible="{DXBinding !(@a($dxg:GridControl).DataContext.IsPortfolio)}"
+                                                       Command="{Binding DataContext.AddToPortfolioCommand, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Delete selected" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Delete.svg}"
+                                                       IsVisible="{DXBinding @a($dxg:GridControl).DataContext.IsPortfolio}"
+                                                       Command="{Binding DataContext.DeleteStrategyCommand, ElementName=uControl}"/>
+                                            <dxb:BarItemSeparator/>
+                                            <dxb:BarButtonItem Content="Enable selected" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Check.svg}"
+                                                       IsVisible="{DXBinding @a($dxg:GridControl).DataContext.IsPortfolio}"
+                                                       Command="{Binding DataContext.EnableSelectedCommand, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Disable selected" Glyph="{dx:DXImage SvgImages/Icon Builder/Actions_Forbid.svg}"
+                                                       IsVisible="{DXBinding @a($dxg:GridControl).DataContext.IsPortfolio}"
+                                                       Command="{Binding DataContext.DisableSelectedCommand, ElementName=uControl}"/>
+                                            <dxb:BarItemSeparator/>
+                                            <dxb:BarButtonItem Content="Add signals to Favorites" Glyph="{dx:DXImage SvgImages/Spreadsheet/ExpandFieldPivotTable.svg}"
+                                                       Command="{Binding DataContext.AddToFavoritesCommand, ElementName=uControl}"/>
+                                            <dxb:BarItemSeparator/>
+                                            <dxb:BarButtonItem Content="Show Trades" Glyph="{dx:DXImage SvgImages/Scheduling/ListView.svg}"
+                                                       Command="{Binding DataContext.ShowTradesCommand, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Show Chart" Glyph="{dx:DXImage SvgImages/Spreadsheet/CreateStockChartOpenHighLowClose.svg}"
+                                                       Command="{Binding DataContext.ShowChartCommand, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Show Last 15" Glyph="{dx:DXImage SvgImages/Scheduling/GroupByNone.svg}"
+                                                       Command="{Binding DataContext.ShowLast15Command, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Breakdown"
+                                                       Command="{Binding DataContext.BreakdownCommand, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Seasonality" Command="{Binding DataContext.SeasonalityCommand, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Randomized OOS" Command="{Binding DataContext.RandomizedOOSCommand, ElementName=uControl}"/>
+                                            <dxb:BarItemSeparator/>
+                                            <dxb:BarButtonItem Content="Re-run strategy with adjustments" Glyph="{dx:DXImage SvgImages/XAF/ModelEditor_Actions_ActionDesign.svg}"
+                                                       Command="{Binding DataContext.ReRunCommand, ElementName=uControl}"/>
+                                            <dxb:BarButtonItem Content="Add rule" Glyph="{dx:DXImage SvgImages/XAF/ModelEditor_Categorized.svg}"
+                                                       Command="{Binding DataContext.AddRuleCommand, ElementName=uControl}"/>
+                                            <dxb:BarItemSeparator/>
+                                            <dxb:BarButtonItem Content="Optimization and Sensitivity" Glyph="{dx:DXImage SvgImages/Dashboards/Chart.svg}"
+                                                       Command="{Binding DataContext.OptimizationCommand, ElementName=uControl}"/>
+                                        </dxg:TreeListView.RowCellMenuCustomizations>
+                                        <dxg:TreeListView.FormatConditions>
+                                            <dxg:FormatCondition Expression="[LivePnL] &gt; 0" FieldName="LivePnL">
+                                                <dx:Format Foreground="#FF00B500" TextDecorations="{x:Null}"/>
+                                            </dxg:FormatCondition>
+                                            <dxg:FormatCondition Expression="[LivePnL] &lt; 0" FieldName="LivePnL">
+                                                <dx:Format Foreground="Red" TextDecorations="{x:Null}"/>
+                                            </dxg:FormatCondition>
+                                        </dxg:TreeListView.FormatConditions>
+                                    </dxg:TreeListView>
+                                </dxg:GridControl.View>
+                                <dxg:GridColumn FieldName="Enabled" AllowEditing="True" Header="X" IsSmart="True" AllowResizing="False" Width="auto" MinWidth="25"
+                                                Visible="{Binding IsPortfolio}"/>
+                                <dxg:GridColumn FieldName="SymbolId" IsSmart="True" Header="Symbol" MinWidth="60"/>
+                                <dxg:GridColumn FieldName="ContractType" IsSmart="True" Header="Type" MinWidth="60" Visible="{Binding IsPortfolio}"/>
+                                <dxg:GridColumn FieldName="Index" IsSmart="True" MinWidth="60"/>
+                                <dxg:GridColumn FieldName="Name" IsSmart="True" AllowEditing="True" MinWidth="200">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn FieldName="Exit_params" IsSmart="True" Header="Exit Params">
+                                    <dxg:GridColumn.EditSettings>
+                                        <dxe:TextEditSettings HorizontalContentAlignment="Right"/>
+                                    </dxg:GridColumn.EditSettings>
+                                </dxg:GridColumn>
+                                <dxg:GridColumn FieldName="Net_PnL" IsSmart="True" Header="Net P&amp;L" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="LivePnL" IsSmart="True" Header="Live P&amp;L" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="LivePosition" IsSmart="True" Header="Live Position" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="Drawdown" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="PnLdd" IsSmart="True" Header="P&amp;L / DD" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="TradesCount" IsSmart="True" Header="Trades"/>
+                                <dxg:GridColumn FieldName="WinPercentage" IsSmart="True" EditSettings="{DynamicResource textEditF3Format}"/>
+                                <dxg:GridColumn FieldName="Mean_w_trades" IsSmart="True" Header="Mean W trades" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="Mean_l_trades" IsSmart="True" Header="Mean L trades" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="Std_w_trades" IsSmart="True" Header="Std W trades" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="Std_l_trades" IsSmart="True" Header="Std L trades" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="AvrTrade" IsSmart="True" Header="Avg Trade" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="ProfitFactor" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="RatioWL" IsSmart="True" Header="Ratio WL" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="CPCRatio" IsSmart="True" Header="CPC Ratio" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="CoerCoef" IsSmart="True" Header="Corr Coef" EditSettings="{DynamicResource textEditF3Format}"/>
+                                <dxg:GridColumn FieldName="RobustIndex" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}" Visible="{DXBinding !IsPortfolio}"/>
+                                <dxg:GridColumn FieldName="Sharpe" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="TTest" IsSmart="True" Header="T-Test" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="CAGR" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="SQM" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="SQN" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="ERatio" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="KRatio" IsSmart="True" EditSettings="{DynamicResource textEditF6Format}"/>
+                                <dxg:GridColumn FieldName="ExpectancyScore" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="PerfectProfitPercentage" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                                <dxg:GridColumn FieldName="PerfectProfitCorrelation" IsSmart="True" EditSettings="{DynamicResource textEditF2Format}"/>
+                            </dxg:GridControl>
+                        </DataTemplate>
+                    </dx:DXTabControl.ItemTemplate>
+                    <dx:DXTabControl.ItemHeaderTemplate>
+                        <DataTemplate>
+                            <!--<Border BorderBrush="{DXBinding Expr='@a($dx:DXTabControl).SelectedItem.Key == Key ? `Transparent` : `LightGray`'}"  CornerRadius="5" BorderThickness="1" Padding="20,0,20,1">-->
+                            <TextBlock Text="{Binding Title}" MinWidth="50" TextAlignment="Center" FontWeight="Medium" />
+                            <!--</Border>-->
+                        </DataTemplate>
+                    </dx:DXTabControl.ItemHeaderTemplate>
+
+                </dx:DXTabControl>
+
+            </dxwui:HamburgerMenu.Content>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Equity Curve" Command="{Binding EquityCurveCommand}" Glyph="/Resources/EQ.svg"/>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Cumulative Equity Curve" Command="{Binding MetricsCommand}" Glyph="/Resources/EQ2.svg"
+                                                     Visibility="{Binding SelectedValue.IsPortfolio, Converter={StaticResource bToVis}, ElementName=tabs}" />
+            <dxwui:HamburgerMenuNavigationButton Content="Metrics" Command="{Binding MetricsCommand}" Glyph="/Resources/Metrics.svg"
+                                                 Visibility="{DXBinding !(@e(tabs).SelectedValue.IsPortfolio), Converter={StaticResource bToVis}}" />
+            <dxwui:HamburgerMenuItemSeparator/>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Monte Carlo Equity Bands" Command="{Binding MCEquityBandsCommand}" Glyph="/Resources/EB.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Monte Carlo Draw Down" Command="{Binding MCDrawdownCommand}" Glyph="/Resources/DD.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Monte Carlo Analysis" Command="{Binding MCAnalysisCommand}"  Glyph="/Resources/MC.svg" />
+
+            <dxwui:HamburgerMenuItemSeparator/>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Variance Testing" Command="{Binding VarianceCommand}" Glyph="/Resources/V.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Robustness Testing" Command="{Binding RobustnessCommand}" Glyph="/Resources/R.svg" />
+
+            <dxwui:HamburgerMenuNavigationButton Content="Minimum Variance Testing" Command="{Binding MinVarianceCommand}" Glyph="/Resources/MV.svg"
+                                                 Visibility="{DXBinding @e(tabs).SelectedValue.IsPortfolio, Converter={StaticResource bToVis}}"/>
+            <dxwui:HamburgerMenuNavigationButton Content="Noise Test" Command="{Binding NoiseCommand}" Glyph="/Resources/N.svg"
+                                                 Visibility="{DXBinding !(@e(tabs).SelectedValue.IsPortfolio), Converter={StaticResource bToVis}}"/>
+            <dxwui:HamburgerMenuNavigationButton Content="Check Correlation" Command="{Binding NoiseCommand}" Glyph="/Resources/C.svg"
+                                                 Visibility="{DXBinding @e(tabs).SelectedValue.IsPortfolio, Converter={StaticResource bToVis}}"/>
+            <dxwui:HamburgerMenuNavigationButton Content="Intraday Checks" Command="{Binding IntradayChecksCommand}" Glyph="/Resources/IC.svg"
+                                                 Visibility="{DXBinding !(@e(tabs).SelectedValue.IsPortfolio), Converter={StaticResource bToVis}}"/>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Intraday Edge" Command="{Binding IntradayEdgeCommand}" Glyph="/Resources/IE.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Signal Breakdown" Command="{Binding SignalBreakdownCommand}" Glyph="/Resources/SB.svg" />
+
+            <dxwui:HamburgerMenuItemSeparator/>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Generate EL code" Command="{Binding ELcodeGenCommand}" Glyph="/Resources/EL.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Generate NT code" Command="{Binding NTcodeGenCommand}" Glyph="/Resources/NT.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Generate MT4 code" Command="{Binding MTcodeGenCommand}" Glyph="/Resources/MT.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Generate Python code" Command="{Binding PythonCodeGenCommand}" Glyph="/Resources/Py.svg" />
+            <dxwui:HamburgerMenuNavigationButton Content="Generate PRT code" Command="{Binding PRTcodeGenCommand}" Glyph="/Resources/PRT.svg" />
+
+            <dxwui:HamburgerMenuItemSeparator/>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Export to CSV" Command="{Binding ExportCommand}" Glyph="/Resources/CSV.svg" />
+
+            <dxwui:HamburgerMenuItemSeparator/>
+
+            <dxwui:HamburgerMenuNavigationButton Content="Test settings" Command="{Binding TestSettingsCommand}"
+                                                 Glyph="/Resources/Settings.svg"/>
+
+            <!--<dxwui:HamburgerMenu.BottomBarItems>
+                <dxwui:HamburgerMenuBottomBarNavigationButton Content="Test settings" Command="{Binding TestSettingsCommand}"
+                                                 Glyph="/Resources/Settings.svg" Placement="Left" MinHeight="22" Padding="0,4" GlyphHeight="20"/>
+            </dxwui:HamburgerMenu.BottomBarItems>-->
+        </dxwui:HamburgerMenu>
+
+
+
+        <!--<dxe:FlyoutControl Content="ahcvajchv" IsOpen="True" PlacementTarget="{Binding ElementName=mainGrid}"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="10" AllowOutOfScreen="False">
+            <dxe:FlyoutControl.Settings>
+                <dxe:FlyInSettings />
+            </dxe:FlyoutControl.Settings>
+        </dxe:FlyoutControl>-->
+    </Grid>
+</UserControl>

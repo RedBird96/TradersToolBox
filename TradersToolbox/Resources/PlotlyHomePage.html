@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <script src="../bin/Release/plotly/dist/plotly.min.js"></script>
+    <title>Plotly</title>
+    <script>
+        document.oncontextmenu = function (e) {
+            return false;
+        }
+    </script>
+
+    <style>
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        #myDiv {
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            min-width: 300px;
+            z-index: 1;
+        }
+
+        #footer {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            <!--text-align: right;-->
+            margin-bottom: 5px;
+            margin-left: 10px;
+        }
+
+        .center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body scroll="no">
+    <div class="center" style="background-color: lightcyan; padding: 20px;">Chart placeholder</div>
+    <div id="myDiv"></div>
+    <script>
+        window.onerror = function (message, url, lineNumber) {
+            //window.external.errorHandler(message, url, lineNumber);
+            document.getElementById("myDiv").innerHTML = '<p style="color:red">Error log: </p>' + 
+            message + " (Line " + lineNumber + ")";
+        }
+    </script>
+    <script>
+        document.body.onmousedown = function double_cl(eventData) {
+            //left button only
+            if ((eventData.which && eventData.which == 1) || (!eventData.which && eventData.button && (e.button & 1))) {
+                selCopyX = selectionX;
+                selCopyY = selectionY;
+                selCopyZ = selectionZ;
+
+                if (selectionZ != -2222222222) {
+                    document.getElementById("Selection").innerHTML = 'Selection: (X=' + selCopyX.toFixed(0) + '; Y=' + selCopyY.toFixed(0) + '; Z=' + selCopyZ.toFixed(3) + ')';
+                }
+                else {
+                    document.getElementById("Selection").innerHTML = 'Selection: none';
+                }
+            }
+        };
+
+        var selCopyX = 0;
+        var selCopyY = 0;
+        var selCopyZ = 0;
+
+        TESTER = document.getElementById("myDiv");
+        
+        var selectionX = -2222222222;
+        var selectionY = -2222222222;
+        var selectionZ = -2222222222;
+
+        var layout = {
+            margin: {
+                l: 20,
+                t: 30,
+                b: 30,
+                r: 30
+            },
+            scene: {
+                xaxis: { title: 'Parameter 1 (X)', linewidth: 3 },
+                yaxis: { title: 'Parameter 2 (Y)', linewidth: 3 },
+                zaxis: { title: 'Result (Z)', linewidth: 3 },
+               // projection: { type: 'orthographic' }
+            }
+        };
+        
+        var options = {
+            displaylogo: false,
+            responsive: true,
+            scrollZoom: true,
+            displayModeBar: true,
+            modeBarButtonsToRemove: [/*'toImage','zoom3d', 'pan3d', 'orbitRotation', 'tableRotation',*/'resetCameraLastSave3d'/*, 'hoverClosest3d'*/]
+        };
+        
+        //#data_start
+        var x1 = [0.3, 0.5, 1.5, 5.6, 6, 7];
+        var y1 = [1, 2, 3, 4, 5, 16, 17, 18, 19, 20];
+        var z1 = [
+            [8.83, 8.89, 8.81, 8.87, 8.9, 8.87],
+            [8.89, 8.94, 8.85, 8.94, 8.96, 8.92],
+            [8.84, 8.9, 8.82, 8.92, 8.93, 8.91],
+            [8.79, 8.85, 8.79, 8.9, 8.94, 8.92],
+            [8.79, 8.88, 8.81, 8.9, 8.95, 8.92],
+            [8.8, 8.82, 8.78, 8.91, 8.94, 8.92],
+            [8.75, 8.78, 8.77, 8.91, 8.95, 8.92],
+            [8.8, 8.8, 8.77, 8.91, 8.95, 8.94],
+            [8.74, 8.81, 8.76, 8.93, 8.98, 8.99],
+            [8.89, 8.99, 8.92, 9.1, 9.13, 9.11]
+        ];
+        //#data_stop
+
+        var data = [{
+            x: x1,
+            y: y1,
+            z: z1,
+            type: 'surface',
+            colorbar: {
+                thickness: 5,
+                len: 0.5
+            }
+        }];
+
+        Plotly.plot(TESTER, data, layout, options);
+
+        // click event
+        /*TESTER.on('plotly_click', function(data){
+            var x = 0;
+            var y = 0;
+            var z = 0;
+            for(var i=0; i < data.points.length; i++){
+                x = data.points[i].x;
+                y = data.points[i].y;
+                z = data.points[i].z;
+            }
+            //window.external.callMe(x, y, z);
+            selectionX = x;
+            selectionY = y;
+            selectionZ = z;
+            alert('x:' + x + ', y:' + y + ', z:' + z);
+        });*/
+
+        TESTER.on('plotly_hover', function(data){
+            for(var i=0; i < data.points.length; i++){
+                selectionX = data.points[i].x;
+                selectionY = data.points[i].y;
+                selectionZ = data.points[i].z;
+            }
+        });
+
+        TESTER.on('plotly_unhover', function(data){
+            selectionX = -2222222222;
+            selectionY = -2222222222;
+            selectionZ = -2222222222;
+        });
+
+        /*function Generate() {
+            if (selCopyX!=-2222222222)
+                window.external.callMe(selectionX, selectionY, selectionZ);
+        }*/
+    </script>
+    <div id="footer">
+        <!--<button onclick="Generate()" style="margin-right:10px">Generate strategy</button>-->
+        <span id="Selection" style="margin-right:20px; font-size: 9pt; font-family: 'Segoe UI'">Selection: none</span>
+    </div>
+</body>
+</html>

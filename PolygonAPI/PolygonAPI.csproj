@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Polygon API
+
+The future of fintech.
+
+OpenAPI spec version: 1.0.0
+
+-->
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6F0B7701-8046-4EDA-85B3-E7B937375D5A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PolygonIO</RootNamespace>
+    <AssemblyName>PolygonAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JsonSubTypes, Version=1.8.0.0, Culture=neutral, PublicKeyToken=ee75fc290dbc1176, processorArchitecture=MSIL">
+      <HintPath>..\packages\JsonSubTypes.1.8.0\lib\net45\JsonSubTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\CryptoApi.cs" />
+    <Compile Include="Api\CurrenciesCryptoApi.cs" />
+    <Compile Include="Api\CurrenciesForexApi.cs" />
+    <Compile Include="Api\ReferenceApi.cs" />
+    <Compile Include="Api\StocksEquitiesApi.cs" />
+    <Compile Include="Client\ApiClient.cs" />
+    <Compile Include="Client\ApiException.cs" />
+    <Compile Include="Client\ApiResponse.cs" />
+    <Compile Include="Client\Configuration.cs" />
+    <Compile Include="Client\ExceptionFactory.cs" />
+    <Compile Include="Client\GlobalConfiguration.cs" />
+    <Compile Include="Client\IApiAccessor.cs" />
+    <Compile Include="Client\IReadableConfiguration.cs" />
+    <Compile Include="Client\SwaggerDateConverter.cs" />
+    <Compile Include="Model\AllOfCryptoSnapshotTickerTickerLastTrade.cs" />
+    <Compile Include="Model\Company.cs" />
+    <Compile Include="Model\Conditions.cs" />
+    <Compile Include="Model\ConditionTypeMap.cs" />
+    <Compile Include="Model\CryptoExchange.cs" />
+    <Compile Include="Model\CryptoGroupedResults.cs" />
+    <Compile Include="Model\CryptoGroupedResultsResults.cs" />
+    <Compile Include="Model\CryptoHistoricTrades.cs" />
+    <Compile Include="Model\CryptoHistoricTradesTicks.cs" />
+    <Compile Include="Model\CryptoLastTrade.cs" />
+    <Compile Include="Model\CryptoLastTradeLast.cs" />
+    <Compile Include="Model\CryptoOpenClose.cs" />
+    <Compile Include="Model\CryptoSnapshotMinute.cs" />
+    <Compile Include="Model\CryptoSnapshotTicker.cs" />
+    <Compile Include="Model\CryptoSnapshotTickerFullBook.cs" />
+    <Compile Include="Model\CryptoSnapshotTickerFullBookBids.cs" />
+    <Compile Include="Model\CryptoSnapshotTickers.cs" />
+    <Compile Include="Model\CryptoSnapshotTickerTicker.cs" />
+    <Compile Include="Model\CryptoSnapshotTickerTickerMin.cs" />
+    <Compile Include="Model\CryptoTick.cs" />
+    <Compile Include="Model\Date.cs" />
+    <Compile Include="Model\Dividend.cs" />
+    <Compile Include="Model\DividendResults.cs" />
+    <Compile Include="Model\Exchange.cs" />
+    <Compile Include="Model\Financial.cs" />
+    <Compile Include="Model\Financials.cs" />
+    <Compile Include="Model\ForexConversion.cs" />
+    <Compile Include="Model\ForexConversionLast.cs" />
+    <Compile Include="Model\ForexGroupedResults.cs" />
+    <Compile Include="Model\ForexGroupedResultsResults.cs" />
+    <Compile Include="Model\ForexHistoricTrades.cs" />
+    <Compile Include="Model\ForexHistoricTradesTicks.cs" />
+    <Compile Include="Model\ForexPairLastQuote.cs" />
+    <Compile Include="Model\ForexPreviousClose.cs" />
+    <Compile Include="Model\ForexPreviousCloseResults.cs" />
+    <Compile Include="Model\ForexSnapshotLastQuote.cs" />
+    <Compile Include="Model\ForexSnapshotPrevDay.cs" />
+    <Compile Include="Model\ForexSnapshotTicker.cs" />
+    <Compile Include="Model\ForexSnapshotTickers.cs" />
+    <Compile Include="Model\ForexSnapshotTickerTicker.cs" />
+    <Compile Include="Model\ForexSnapshotTickerTickerDay.cs" />
+    <Compile Include="Model\ForexSnapshotTickerTickerLastQuote.cs" />
+    <Compile Include="Model\ForexSnapshotTickerTickerMin.cs" />
+    <Compile Include="Model\ForexTickerResults.cs" />
+    <Compile Include="Model\ForexTickerResultsResults.cs" />
+    <Compile Include="Model\InlineResponse200.cs" />
+    <Compile Include="Model\InlineResponse2001.cs" />
+    <Compile Include="Model\InlineResponse20010.cs" />
+    <Compile Include="Model\InlineResponse20011.cs" />
+    <Compile Include="Model\InlineResponse20012.cs" />
+    <Compile Include="Model\InlineResponse20013.cs" />
+    <Compile Include="Model\InlineResponse20014.cs" />
+    <Compile Include="Model\InlineResponse20015.cs" />
+    <Compile Include="Model\InlineResponse20016.cs" />
+    <Compile Include="Model\InlineResponse20017.cs" />
+    <Compile Include="Model\InlineResponse20018.cs" />
+    <Compile Include="Model\InlineResponse20019.cs" />
+    <Compile Include="Model\InlineResponse2002.cs" />
+    <Compile Include="Model\InlineResponse20020.cs" />
+    <Compile Include="Model\InlineResponse20021.cs" />
+    <Compile Include="Model\InlineResponse20022.cs" />
+    <Compile Include="Model\InlineResponse20023.cs" />
+    <Compile Include="Model\InlineResponse20024.cs" />
+    <Compile Include="Model\InlineResponse20025.cs" />
+    <Compile Include="Model\InlineResponse20026.cs" />
+    <Compile Include="Model\InlineResponse20027.cs" />
+    <Compile Include="Model\InlineResponse20028.cs" />
+    <Compile Include="Model\InlineResponse20029.cs" />
+    <Compile Include="Model\InlineResponse2003.cs" />
+    <Compile Include="Model\InlineResponse20030.cs" />
+    <Compile Include="Model\InlineResponse20031.cs" />
+    <Compile Include="Model\InlineResponse20032.cs" />
+    <Compile Include="Model\InlineResponse20033.cs" />
+    <Compile Include="Model\InlineResponse20034.cs" />
+    <Compile Include="Model\InlineResponse20035.cs" />
+    <Compile Include="Model\InlineResponse20036.cs" />
+    <Compile Include="Model\InlineResponse20037.cs" />
+    <Compile Include="Model\InlineResponse20038.cs" />
+    <Compile Include="Model\InlineResponse20039.cs" />
+    <Compile Include="Model\InlineResponse2004.cs" />
+    <Compile Include="Model\InlineResponse20040.cs" />
+    <Compile Include="Model\InlineResponse20041.cs" />
+    <Compile Include="Model\InlineResponse2005.cs" />
+    <Compile Include="Model\InlineResponse2006.cs" />
+    <Compile Include="Model\InlineResponse2007.cs" />
+    <Compile Include="Model\InlineResponse2008.cs" />
+    <Compile Include="Model\InlineResponse2009.cs" />
+    <Compile Include="Model\InlineResponse2009Results.cs" />
+    <Compile Include="Model\Locales.cs" />
+    <Compile Include="Model\LocalesResults.cs" />
+    <Compile Include="Model\Map.cs" />
+    <Compile Include="Model\MapKey.cs" />
+    <Compile Include="Model\MarketHoliday.cs" />
+    <Compile Include="Model\Markets.cs" />
+    <Compile Include="Model\MarketsResults.cs" />
+    <Compile Include="Model\MarketStatus.cs" />
+    <Compile Include="Model\MarketStatusCurrencies.cs" />
+    <Compile Include="Model\MarketStatusExchanges.cs" />
+    <Compile Include="Model\News.cs" />
+    <Compile Include="Model\OneOfdate.cs" />
+    <Compile Include="Model\PaginationHooksBase.cs" />
+    <Compile Include="Model\RatingSection.cs" />
+    <Compile Include="Model\RequestIdBase.cs" />
+    <Compile Include="Model\SnapshotLastTrade.cs" />
+    <Compile Include="Model\SnapshotOHLCV.cs" />
+    <Compile Include="Model\SnapshotOHLCVVW.cs" />
+    <Compile Include="Model\Split.cs" />
+    <Compile Include="Model\SplitResults.cs" />
+    <Compile Include="Model\StatusBase.cs" />
+    <Compile Include="Model\StatusCountBase.cs" />
+    <Compile Include="Model\StocksGroupedResults.cs" />
+    <Compile Include="Model\StocksGroupedResultsResults.cs" />
+    <Compile Include="Model\StocksLastQuote.cs" />
+    <Compile Include="Model\StocksLastQuoteLast.cs" />
+    <Compile Include="Model\StocksLastTrade.cs" />
+    <Compile Include="Model\StocksLastTradeLast.cs" />
+    <Compile Include="Model\StocksOpenClose.cs" />
+    <Compile Include="Model\StocksSnapshotLastQuote.cs" />
+    <Compile Include="Model\StocksSnapshotMinute.cs" />
+    <Compile Include="Model\StocksSnapshotTicker.cs" />
+    <Compile Include="Model\StocksSnapshotTickers.cs" />
+    <Compile Include="Model\StocksSnapshotTickersDay.cs" />
+    <Compile Include="Model\StocksSnapshotTickersLastQuote.cs" />
+    <Compile Include="Model\StocksSnapshotTickersLastTrade.cs" />
+    <Compile Include="Model\StocksSnapshotTickersMin.cs" />
+    <Compile Include="Model\StocksSnapshotTickersTickers.cs" />
+    <Compile Include="Model\StocksV2NBBO.cs" />
+    <Compile Include="Model\StocksV2NBBOResults.cs" />
+    <Compile Include="Model\StocksV2Trade.cs" />
+    <Compile Include="Model\StocksV2TradeMap.cs" />
+    <Compile Include="Model\StocksV2TradeResults.cs" />
+    <Compile Include="Model\TickerBase.cs" />
+    <Compile Include="Model\TickerResults.cs" />
+    <Compile Include="Model\TickerResultsResults.cs" />
+    <Compile Include="Model\Tickers.cs" />
+    <Compile Include="Model\TickersAttrs.cs" />
+    <Compile Include="Model\TickersCodes.cs" />
+    <Compile Include="Model\TickersTickers.cs" />
+    <Compile Include="Model\TickerTypes.cs" />
+    <Compile Include="Model\TickerTypesResults.cs" />
+    <Compile Include="Model\TickerTypesResultsIndexTypes.cs" />
+    <Compile Include="Model\TickerTypesResultsTypes.cs" />
+    <Compile Include="Model\TradeDetailsMapItem.cs" />
+    <Compile Include="Model\V1LastBase.cs" />
+    <Compile Include="Model\V2AggsBase.cs" />
+    <Compile Include="Model\V2TicksBase.cs" />
+    <Compile Include="Model\VXTickers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MsBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

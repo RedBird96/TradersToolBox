@@ -1,0 +1,341 @@
+﻿<UserControl x:Name="TaskWizard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:views="clr-namespace:TradersToolbox.Views"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:core="clr-namespace:TradersToolbox.Core.Serializable;assembly=TradersToolbox.Core"
+             xmlns:core2="clr-namespace:TradersToolbox.Core;assembly=TradersToolbox.Core"
+             xmlns:properties="clr-namespace:TradersToolbox.Properties"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             x:Class="TradersToolbox.Views.SimTaskWizardView"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="950"
+             MinWidth="400" MinHeight="300">
+    <UserControl.Resources>
+        <views:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <BooleanToVisibilityConverter x:Key="booleanToVis"/>
+        <Style x:Key="resWinStyle" TargetType="dx:ThemedWindow">
+            <Setter Property="Width" Value="{Binding ResWindowWidth, Mode=TwoWay}"/>
+            <Setter Property="Height" Value="{Binding ResWindowHeight, Mode=TwoWay}"/>
+        </Style>
+    </UserControl.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding LoadedCommand}"/>
+        <dxmvvm:EventToCommand EventName="Unloaded" Command="{Binding UnloadedCommand}"/>
+        <dx:DXMessageBoxService/>
+        <dx:WindowedDocumentUIService SetWindowOwner="False" WindowStartupLocation="Manual" WindowStyle="{DynamicResource resWinStyle}" WindowType="{x:Type views:SimResultsDXWindow}"/>
+        <dxmvvm:OpenFileDialogService/>
+        <dxmvvm:SaveFileDialogService/>
+        <!--<dxmvvm:CurrentWindowService/>
+        <dx:CurrentDialogService/>-->
+    </dxmvvm:Interaction.Behaviors>
+    <Grid>
+        <Grid Margin="0,0,0,3" IsEnabled="{DXBinding '!IsWaitIndicatorVisible'}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="8"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+
+            <dx:DXTabControl Margin="0,-27,0,0" SelectedIndex="1">
+                <dx:DXTabControl.View>
+                    <dx:TabControlScrollView HeaderAutoFill="True"/>
+                </dx:DXTabControl.View>
+
+                <dx:DXTabItem Header="Simple" HorizontalAlignment="Right" HorizontalContentAlignment="Center" MinWidth="100" IsEnabled="False">
+                    <!-- Map Control -->
+                </dx:DXTabItem>
+                <dx:DXTabItem Header="Advanced" HorizontalAlignment="Left" HorizontalContentAlignment="Center" MinWidth="100">
+                    <Grid Margin="0,0,0,3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <dxlc:LayoutControl Orientation="Vertical" Padding="9,5,15,5" Margin="0,0,3,0" dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap">
+                            <dxlc:LayoutControl.GroupBoxStyle>
+                                <Style TargetType="dxlc:GroupBox">
+                                    <Setter Property="Padding" Value="6"/>
+                                </Style>
+                            </dxlc:LayoutControl.GroupBoxStyle>
+
+                            <dxlc:LayoutItem Label="Strategy Type" Margin="0,0,0,10">
+                                <dxe:ComboBoxEdit x:Name="StrategyTypeComboBox" IsTextEditable="False" EditValue="{Binding SimSettings.TradeMode, Mode=TwoWay}">
+                                    <dxmvvm:Interaction.Behaviors>
+                                        <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type core:TradeMode}"/>
+                                    </dxmvvm:Interaction.Behaviors>
+                                </dxe:ComboBoxEdit>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Symbols">
+                                <views:CheckedComboBox x:Name="ccbSymbols" IsMultiChecked="True"
+                                                       SelectedSymbolIds="{Binding DataContext.SimSettings.BaseSymbolsIds, ElementName=TaskWizard, Mode=TwoWay}"
+                                                       DataContext="{Binding Symbols, Source={x:Static core2:Utils.SymbolsManager}}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Market 2">
+                                <views:CheckedComboBox x:Name="ccbMarket2" SelectedSymbolId="{Binding DataContext.M2SymbolId, ElementName=TaskWizard, Mode=TwoWay}"
+                                                       DataContext="{Binding Symbols, Source={x:Static core2:Utils.SymbolsManager}}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Market 3" Margin="0,0,0,10">
+                                <views:CheckedComboBox x:Name="ccbMarket3"  SelectedSymbolId="{Binding DataContext.M3SymbolId, ElementName=TaskWizard, Mode=TwoWay}"
+                                                       DataContext="{Binding Symbols, Source={x:Static core2:Utils.SymbolsManager}}"/>
+                            </dxlc:LayoutItem>
+
+                            <dxlc:LayoutItem Label="Start Date">
+                                <dxe:DateEdit x:Name="startDate" EditValue="{Binding SimSettings.StartDateTime, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="Stop Date" Margin="0,0,0,10">
+                                <dxe:DateEdit EditValue="{Binding SimSettings.StopDateTime, Mode=TwoWay}" MinValue="{DXBinding Expr='@e(startDate).EditValue', Mode=OneWay}"/>
+                            </dxlc:LayoutItem>
+
+                            <dxlc:LayoutGroup View="GroupBox" IsCollapsible="True" IsCollapsed="True">
+                                <dxlc:LayoutGroup.HeaderTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="-5,0">
+                                            <dxe:CheckEdit Content="Profit Target" 
+                                            IsChecked="{Binding Path=DataContext.PT_ON, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                                            <dxe:ToggleSwitch Content="ATR" ContentPlacement="Both" UncheckedStateContent="ATR" CheckedStateContent="Fixed"
+                                            HorizontalAlignment="Right" ToggleSwitchHeight="15" ToggleSwitchWidth="30"
+                                            IsChecked="{Binding Path=DataContext.PT_Fixed, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </dxlc:LayoutGroup.HeaderTemplate>
+
+                                <dxlc:LayoutItem Label="PT mult" IsEnabled="{Binding PT_ON, Mode=OneWay}">
+                                    <Grid x:Name="gridPT" HorizontalAlignment="Right" Width="{DXBinding '@e(StrategyTypeComboBox).ActualWidth>7?@e(StrategyTypeComboBox).ActualWidth-7:0'}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <dxe:SpinEdit Mask="f3" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.PT_mult}"/>
+                                        <TextBlock Text="Δ ×3" Grid.Column="1" VerticalAlignment="Center" Margin="3,0"/>
+                                        <dxe:SpinEdit Mask="f3" MaskUseAsDisplayFormat="True" MinValue="0"  Grid.Column="2" EditValue="{DXBinding SimSettings.PT_delta}"/>
+                                    </Grid>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutGroup View="GroupBox" IsCollapsible="True" IsCollapsed="True">
+                                <dxlc:LayoutGroup.HeaderTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="-5,0">
+                                            <dxe:CheckEdit Content="Stop Loss" IsChecked="{DXBinding '@a($UserControl).DataContext.SL_ON'}"/>
+                                            <dxe:ToggleSwitch Content="ATR" ContentPlacement="Both" UncheckedStateContent="ATR" CheckedStateContent="Fixed"
+                                  HorizontalAlignment="Right" ToggleSwitchHeight="15" ToggleSwitchWidth="30" IsChecked="{DXBinding '@a($UserControl).DataContext.SL_Fixed'}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </dxlc:LayoutGroup.HeaderTemplate>
+
+                                <dxlc:LayoutItem Label="SL mult" IsEnabled="{Binding SL_ON, Mode=OneWay}">
+                                    <Grid HorizontalAlignment="Right" Width="{DXBinding '@e(gridPT).Width', Mode=OneWay}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <dxe:SpinEdit Mask="f3" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.SL_mult}"/>
+                                        <TextBlock Text="Δ ×3" Grid.Column="1" VerticalAlignment="Center" Margin="3,0"/>
+                                        <dxe:SpinEdit Mask="f3" MaskUseAsDisplayFormat="True" Grid.Column="2" MinValue="0" EditValue="{DXBinding SimSettings.SL_delta}"/>
+                                    </Grid>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutGroup View="GroupBox" IsCollapsible="True" IsCollapsed="True">
+                                <dxlc:LayoutGroup.HeaderTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="-5,0">
+                                            <dxe:CheckEdit Content="Trailing Stop Loss" IsChecked="{DXBinding '@a($UserControl).DataContext.TL_ON'}"/>
+                                            <dxe:ToggleSwitch Content="ATR" ContentPlacement="Both" UncheckedStateContent="ATR" CheckedStateContent="Fixed"
+                                  HorizontalAlignment="Right" ToggleSwitchHeight="15" ToggleSwitchWidth="30" IsChecked="{DXBinding '@a($UserControl).DataContext.TL_Fixed'}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </dxlc:LayoutGroup.HeaderTemplate>
+
+                                <dxlc:LayoutItem Label="TL mult" IsEnabled="{Binding TL_ON, Mode=OneWay}">
+                                    <Grid HorizontalAlignment="Right" Width="{DXBinding '@e(gridPT).Width', Mode=OneWay}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <dxe:SpinEdit Mask="f3" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.TL_mult}"/>
+                                        <TextBlock Text="Δ ×3" Grid.Column="1" VerticalAlignment="Center" Margin="3,0"/>
+                                        <dxe:SpinEdit Mask="f3" MaskUseAsDisplayFormat="True" Grid.Column="2" MinValue="0" EditValue="{DXBinding SimSettings.TL_delta}"/>
+                                    </Grid>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutGroup View="GroupBox" IsCollapsible="True" IsCollapsed="True">
+                                <dxlc:LayoutGroup.HeaderTemplate>
+                                    <DataTemplate>
+                                        <dxe:CheckEdit Content="Highest high" Margin="-5,0,0,0" IsChecked="{DXBinding '@a($UserControl).DataContext.SimSettings.HH_ON'}"/>
+                                    </DataTemplate>
+                                </dxlc:LayoutGroup.HeaderTemplate>
+
+                                <dxlc:LayoutItem Label="HH look" IsEnabled="{DXBinding SimSettings.HH_ON, Mode=OneWay}">
+                                    <Grid HorizontalAlignment="Right" Width="{DXBinding '@e(gridPT).Width', Mode=OneWay}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.HH_look}"/>
+                                        <TextBlock Text="Δ ×3" Grid.Column="1" VerticalAlignment="Center" Margin="3,0"/>
+                                        <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" Grid.Column="2" MinValue="0" EditValue="{DXBinding SimSettings.HH_delta}"/>
+                                    </Grid>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutGroup View="GroupBox" IsCollapsible="True" IsCollapsed="True">
+                                <dxlc:LayoutGroup.HeaderTemplate>
+                                    <DataTemplate>
+                                        <dxe:CheckEdit Content="Lowest Low" Margin="-5,0,0,0" IsChecked="{DXBinding '@a($UserControl).DataContext.SimSettings.LL_ON'}"/>
+                                    </DataTemplate>
+                                </dxlc:LayoutGroup.HeaderTemplate>
+
+                                <dxlc:LayoutItem Label="LL look" IsEnabled="{DXBinding SimSettings.LL_ON, Mode=OneWay}">
+                                    <Grid HorizontalAlignment="Right" Width="{DXBinding '@e(gridPT).Width', Mode=OneWay}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.LL_look}"/>
+                                        <TextBlock Text="Δ ×3" Grid.Column="1" VerticalAlignment="Center" Margin="3,0"/>
+                                        <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" Grid.Column="2" MinValue="0" EditValue="{DXBinding SimSettings.LL_delta}"/>
+                                    </Grid>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+
+                            <dxlc:LayoutItem Label="Fitness function " Margin="0,5">
+                                <dxe:ComboBoxEdit IsTextEditable="False" PopupMaxHeight="200" EditValue="{DXBinding SimSettings.Fitness, Mode=TwoWay}">
+                                    <dxmvvm:Interaction.Behaviors>
+                                        <dxmvvm:EnumItemsSourceBehavior EnumType="{x:Type core:FitnessFunction}"/>
+                                    </dxmvvm:Interaction.Behaviors>
+                                </dxe:ComboBoxEdit>
+                            </dxlc:LayoutItem>
+
+                            <dxlc:LayoutItem Label="Max Holding Time">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.MaxHoldTime}"/>
+                                    <TextBlock Text="Δ ×3" Grid.Column="1" VerticalAlignment="Center" Margin="3,0"/>
+                                    <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" Grid.Column="2" MinValue="0" EditValue="{DXBinding SimSettings.MaxHoldTime_delta}"/>
+                                </Grid>
+                            </dxlc:LayoutItem>
+
+                            <dxlc:LayoutItem Label="Profitable Closes">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.ProfX, Mode=TwoWay}"/>
+                                    <TextBlock Text="Δ ×3" Grid.Column="1" VerticalAlignment="Center" Margin="3,0"/>
+                                    <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" Grid.Column="2" MinValue="0" EditValue="{DXBinding SimSettings.ProfX_delta, Mode=TwoWay}"/>
+                                </Grid>
+                            </dxlc:LayoutItem>
+
+
+                            <dxlc:LayoutGroup Orientation="Vertical" ItemLabelsAlignment="Local">
+                                <dxlc:LayoutItem Label="In Sample minimum trades">
+                                    <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" MinValue="1" EditValue="{DXBinding SimSettings.MinInTrades}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Out of Sample minimum trades  ">
+                                    <dxe:SpinEdit Mask="d" MaskUseAsDisplayFormat="True" MinValue="1" EditValue="{DXBinding SimSettings.MinOutTrades}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Out of Sample percent">
+                                    <dxe:SpinEdit Mask="p0" MaskUseAsDisplayFormat="True" MinValue="0" EditValue="{DXBinding SimSettings.OutOfSamplePercent}" Increment="0.01"/>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutControl>
+
+                        <views:SignalsView x:Name="signalsView" ItemsSource="{Binding Signals}" Grid.Column="1"
+                                           M2Enabled="{Binding M2Enabled, Mode=TwoWay}" M3Enabled="{Binding M3Enabled, Mode=TwoWay}"
+                                           SelectPositiveCommand="{Binding SelectPositiveCommand}"/>
+
+                    </Grid>
+                </dx:DXTabItem>
+
+
+                <dx:DXTabItem Header="Additional Settings" HorizontalAlignment="Right">
+                    <views:AdditionalSimSettingsView x:Name="AdditionalSettings" dxmvvm:ViewModelExtensions.Parameter="{Binding DataContext.SimSettings, ElementName=TaskWizard}"/>
+                </dx:DXTabItem>
+            </dx:DXTabControl>
+
+
+
+
+            <!--<Rectangle Height="1" Fill="LightGray" Grid.Row="1"/>-->
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+                <dx:SimpleButton Content="Regular Simulation" MinWidth="150" Command="{Binding RegularSimulationCommand}" ToolTip="Regular Simulation (F5)" CornerRadius="5"/>
+                <dx:SimpleButton Content="{DXBinding 'IsContinuousRunning ? `STOP continuous simulation` : `Continuous Simulation`'}" MinWidth="150" Margin="10,0,0,0" CornerRadius="5"
+                                 Command="{Binding ContinuousSimulationCommand}" ToolTip="Continuous Simulation (F6)"
+                                 Visibility="{DXBinding '!IsReRun', Converter={StaticResource booleanToVis}}"/>
+            </StackPanel>
+
+
+            <dx:DropDownButton Content="Configuration..." HorizontalAlignment="Left" Margin="22,0,0,0" Grid.Row="2" Width="150" CornerRadius="5" PopupDropAlignment="Top"
+                               Glyph="{dx:DXImage 'SvgImages/Scheduling/ViewSettings.svg'}" Visibility="{DXBinding '!IsReRun', Converter={StaticResource booleanToVis}}">
+                <dx:DropDownButton.PopupContent>
+                    <dxb:PopupMenu>
+                        <dxb:BarButtonItem Content="Load Configuration" Glyph="{dx:DXImage 'SvgImages/Dashboards/ImageLoad.svg'}" KeyGesture="Ctrl+L"
+                                           Command="{Binding LoadConfigurationCommand}"/>
+                        <dxb:BarButtonItem Content="{DXBinding '`Save Configuration` + (CurrentConfigFileName==null ? `` : (` (` + CurrentConfigFileName + `)` ))', Mode=OneWay}"
+                                           IsEnabled="{DXBinding 'CurrentConfigFileName!=null'}"
+                                           Glyph="{dx:DXImage 'SvgImages/Save/Save.svg'}" KeyGesture="Ctrl+S"
+                                           Command="{Binding SaveConfigurationCommand}"/>
+                        <dxb:BarButtonItem Content="Save Configuration as..." Glyph="{dx:DXImage 'SvgImages/Save/SaveAs.svg'}" KeyGesture="Ctrl+Shift+S"
+                                           Command="{Binding SaveConfigurationAsCommand}"/>
+                        <dxb:BarSubItem Content="Recent Configurations" ItemLinksSource="{Binding RecentConfigFiles}">
+                            <dxb:BarSubItem.ItemTemplate>
+                                <DataTemplate>
+                                    <dxb:BarButtonItem Content="{Binding Key}" ToolTip="{Binding Value}"/>
+                                </DataTemplate>
+                            </dxb:BarSubItem.ItemTemplate>
+                        </dxb:BarSubItem>
+                        <dxb:BarButtonItem Content="Reset Configuration" Glyph="{dx:DXImage 'SvgImages/Spreadsheet/ResetRange.svg'}"
+                                           Command="{Binding ResetConfigToDefaultsCommand}"/>
+                    </dxb:PopupMenu>
+                </dx:DropDownButton.PopupContent>
+            </dx:DropDownButton>
+
+        </Grid>
+
+        <Grid Visibility="{Binding IsWaitIndicatorVisible, Converter={StaticResource booleanToVis}}" IsEnabled="{DXBinding IsWaitIndicatorVisible}">
+            <dx:ThemedBorder HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="1">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <dx:DXImage Grid.ColumnSpan="2" Source="/TradersToolbox_x64_v3;component/Resources/TradersToolbox.png" Width="50" Margin="0,0,0,20"/>
+                    <TextBlock Grid.Row="1" Text="{Binding ProgressText}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding StageText}" HorizontalAlignment="Right"/>
+                    <dxe:ProgressBarEdit Grid.Row="2" Grid.ColumnSpan="2" MinWidth="280" Height="10" Margin="0,10,0,20" Value="{Binding ProgressValue}" CornerRadius="5"/>
+                    <dx:SimpleButton Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" MinHeight="23" MinWidth="100" Content="Cancel (Esc)"
+                                     IsCancel="True" Command="{Binding CancelCommand}" CornerRadius="5"/>
+                </Grid>
+            </dx:ThemedBorder>
+        </Grid>
+    </Grid>
+</UserControl>

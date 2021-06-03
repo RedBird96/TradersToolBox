@@ -1,0 +1,30 @@
+﻿<dx:SplashScreenWindow x:Class="TradersToolbox.WorkspaceLoadingSplashScreen"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                       xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                       xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
+                       xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                       MinWidth="400"
+                       MinHeight="200"
+                       AllowAcrylic="True"
+                       dx:DXDesignTimeHelper.Background="#FF525252"
+                       mc:Ignorable="d"
+                       d:DataContext="{x:Static dxmvvm:DXSplashScreenViewModel.DesignTimeData}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="1.2*"/>
+        </Grid.RowDefinitions>
+
+        <dx:DXImage x:Name="PART_Logo" Source="{Binding Logo}" Style="{DynamicResource ResourceKey={dxt:FluentSplashScreenThemeKey ResourceKey=LogoImageStyle}}"/>
+        <StackPanel Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
+            <TextBlock x:Name="PART_SubTitle" Text="Loading Workspace..." Style="{DynamicResource ResourceKey={dxt:FluentSplashScreenThemeKey ResourceKey=SubTitleTextBoxStyle}}"
+                       FontSize="16"/>
+            <ProgressBar Grid.Row="2" Style="{DynamicResource ResourceKey={dxt:FluentSplashScreenThemeKey ResourceKey=ProgressBarStyle}}"/>
+        </StackPanel>
+
+    </Grid>
+</dx:SplashScreenWindow>

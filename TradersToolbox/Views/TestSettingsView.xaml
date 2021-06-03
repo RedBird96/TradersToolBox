@@ -1,0 +1,259 @@
+﻿<UserControl x:Name="testSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:views="clr-namespace:TradersToolbox.Views"
+             xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:core="clr-namespace:TradersToolbox.Core;assembly=TradersToolbox.Core"
+             xmlns:properties="clr-namespace:TradersToolbox.Properties"
+             x:Class="TradersToolbox.Views.TestSettingsView"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="800">
+    <Grid>
+        <dxlc:LayoutControl Padding="0">
+            <dxlc:LayoutGroup Orientation="Vertical">
+                <dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Orientation="Vertical">
+                        <dxlc:LayoutGroup Header="Monte Carlo Equity" View="GroupBox">
+                            <dxlc:LayoutGroup Orientation="Vertical">
+                                <dxlc:LayoutItem Label="To pick">
+                                    <dxe:SpinEdit MinValue="0" Mask="d" MaskUseAsDisplayFormat="True" 
+                                                  EditValue="{Binding Path=MCE_ToPick, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Iterations">
+                                    <dxe:SpinEdit MinValue="0" Mask="d" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=MCE_Iterations, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Lower">
+                                    <dxe:SpinEdit MinValue="0" Mask="f2" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=MCE_Lower, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Upper">
+                                    <dxe:SpinEdit MinValue="0" Mask="f2" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=MCE_Upper, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup>
+                            <dxlc:LayoutGroup Header="Variance Testing" View="GroupBox">
+                                <dxlc:LayoutGroup Orientation="Vertical">
+                                    <dxlc:LayoutItem Label="Iterations">
+                                        <dxe:SpinEdit  MinValue="0" Mask="d" MaskUseAsDisplayFormat="True"
+                                                       EditValue="{Binding Path=VT_Iterations, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="Trades">
+                                        <dxe:SpinEdit  MinValue="0" Mask="d" MaskUseAsDisplayFormat="True"
+                                                       EditValue="{Binding Path=VT_Trades, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="Variation">
+                                        <dxe:SpinEdit  MinValue="0" Mask="f2" MaskUseAsDisplayFormat="True"
+                                                       EditValue="{Binding Path=VT_Variations, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                    </dxlc:LayoutItem>
+                                    <dxlc:LayoutItem Label="Ruin">
+                                        <dxe:SpinEdit  MinValue="0" Mask="f2" MaskUseAsDisplayFormat="True"
+                                                       EditValue="{Binding Path=VT_Ruin, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                    </dxlc:LayoutItem>
+                                </dxlc:LayoutGroup>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Orientation="Vertical">
+                        <dxlc:LayoutGroup Header="Monte Carlo Drawdown" View="GroupBox">
+                            <dxlc:LayoutGroup Orientation="Vertical">
+                                <dxlc:LayoutItem Label="Iterations ">
+                                    <dxe:SpinEdit  MinValue="0" Mask="d" MaskUseAsDisplayFormat="True"
+                                                   EditValue="{Binding Path=MCDD_Iterations, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Acct Size">
+                                    <dxe:SpinEdit  MinValue="0" Mask="f2" MaskUseAsDisplayFormat="True"
+                                                   EditValue="{Binding Path=MCDD_AcctSize, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup Header="Noise Test" View="GroupBox">
+                            <dxlc:LayoutGroup Orientation="Vertical">
+                                <dxlc:LayoutItem Label="Open, %">
+                                    <dxe:SpinEdit MinValue="0" MaxValue="100" Mask="d" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=NoiseTestOpen, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="High, %">
+                                    <dxe:SpinEdit MinValue="0" MaxValue="100" Mask="d" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=NoiseTestHigh, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Low, %">
+                                    <dxe:SpinEdit MinValue="0" MaxValue="100" Mask="d" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=NoiseTestLow, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Close, %">
+                                    <dxe:SpinEdit MinValue="0" MaxValue="100" Mask="d" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=NoiseTestClose, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Max, %">
+                                    <dxe:SpinEdit MinValue="0" MaxValue="1000" Mask="d" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=NoiseTestMax, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="Tests">
+                                    <dxe:SpinEdit MinValue="1" MaxValue="1000" Mask="d" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=NoiseTestCount, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="Intraday Edge" View="GroupBox">
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutItem Label="Symbol">
+                                <views:CheckedComboBox x:Name="cbIntradaySymbol"
+                                                       SelectedSymbolId="{Binding DataContext.IntraSymbolId, ElementName=testSettings, Mode=TwoWay}"
+                                                       DataContext="{Binding Symbols, Source={x:Static core:Utils.SymbolsManager}}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="End of day">
+                                <dxe:TextEdit Mask="t" MaskUseAsDisplayFormat="True" MaskType="DateTime" 
+                                              EditValue="{Binding Path=IntraEndOfDay, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label=" ">
+                                <dxe:CheckEdit EditValue="{Binding Path=IntraExcludeExits, Source={x:Static properties:Settings.Default}, Mode=TwoWay}">
+                                    <TextBlock Text="Exclude original strategy exits. If checked PT/SL/TL/HH/LL/PX/SigExits will not be used"
+                                               TextWrapping="Wrap" Margin="5,0,0,0"/>
+                                </dxe:CheckEdit>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Header="Intraday Checks" View="GroupBox">
+                <dxlc:LayoutGroup Orientation="Vertical">
+                    <dxlc:LayoutGroup Header="Max P&amp;L" View="GroupBox">
+                        <dxlc:LayoutGroup.HeaderTemplate>
+                            <DataTemplate>
+                                <dxe:CheckEdit Margin="-5,0" Content="Max P&amp;L" IsChecked="{Binding Path=TTmaxPNLEnabled, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </dxlc:LayoutGroup.HeaderTemplate>
+
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutItem Label="from">
+                                <dxe:SpinEdit Mask="f2" MaskUseAsDisplayFormat="True"
+                                              EditValue="{Binding Path=TTmaxPNLstart, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="to">
+                                <dxe:SpinEdit Mask="f2" MaskUseAsDisplayFormat="True"
+                                              EditValue="{Binding Path=TTmaxPNLend, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="step">
+                                <dxe:SpinEdit Mask="f2" MaskUseAsDisplayFormat="True"
+                                              EditValue="{Binding Path=TTmaxPNLstep, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="Start Time" View="GroupBox">
+                        <dxlc:LayoutGroup.HeaderTemplate>
+                            <DataTemplate>
+                                <dxe:CheckEdit Margin="-5,0" Content="Start Time" IsChecked="{Binding Path=TTstartTimeEnabled, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </dxlc:LayoutGroup.HeaderTemplate>
+                        
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutItem Label="from">
+                                <dxe:TextEdit Mask="t" MaskUseAsDisplayFormat="True" MaskType="DateTime" 
+                                              EditValue="{Binding Path=TTstartTimeStart, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="to">
+                                <dxe:TextEdit Mask="t" MaskUseAsDisplayFormat="True" MaskType="DateTime" 
+                                              EditValue="{Binding Path=TTstartTimeEnd, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="step">
+                                <dxe:TextEdit Mask="t" MaskUseAsDisplayFormat="True" MaskType="DateTime" 
+                                              EditValue="{Binding Path=TTstartTimeStep, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                    <dxlc:LayoutGroup Header="Max Trades" View="GroupBox">
+                        <dxlc:LayoutGroup.HeaderTemplate>
+                            <DataTemplate>
+                                <dxe:CheckEdit Margin="-5,0" Content="Max Trades" IsChecked="{Binding Path=TTmaxTradesEnabled, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </DataTemplate>
+                        </dxlc:LayoutGroup.HeaderTemplate>
+                        
+                        <dxlc:LayoutGroup Orientation="Vertical">
+                            <dxlc:LayoutItem Label="from">
+                                <dxe:SpinEdit MinValue="0" Mask="d" MaskUseAsDisplayFormat="True"
+                                              EditValue="{Binding Path=TTmaxTradesStart, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="to">
+                                <dxe:SpinEdit MinValue="0" Mask="d" MaskUseAsDisplayFormat="True"
+                                              EditValue="{Binding Path=TTmaxTradesEnd, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                            <dxlc:LayoutItem Label="step">
+                                <dxe:SpinEdit MinValue="1" Mask="d" MaskUseAsDisplayFormat="True"
+                                              EditValue="{Binding Path=TTmaxTradesStep, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                            </dxlc:LayoutItem>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Orientation="Vertical">
+                    <dxlc:LayoutGroup Orientation="Vertical">
+                        <dxlc:LayoutGroup Header="Min P&amp;L" View="GroupBox">
+                            <dxlc:LayoutGroup.HeaderTemplate>
+                                <DataTemplate>
+                                    <dxe:CheckEdit Margin="-5,0" Content="Min P&amp;L" IsChecked="{Binding Path=TTminPNLEnabled, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </dxlc:LayoutGroup.HeaderTemplate>
+
+                            <dxlc:LayoutGroup Orientation="Vertical">
+                                <dxlc:LayoutItem Label="from">
+                                    <dxe:SpinEdit Mask="f2" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=TTminPNLstart, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="to">
+                                    <dxe:SpinEdit Mask="f2" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=TTminPNLend, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="step">
+                                    <dxe:SpinEdit Mask="f2" MaskUseAsDisplayFormat="True"
+                                                  EditValue="{Binding Path=TTminPNLstep, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutGroup>
+                        <dxlc:LayoutGroup Header="End Time" View="GroupBox">
+                            <dxlc:LayoutGroup.HeaderTemplate>
+                                <DataTemplate>
+                                    <dxe:CheckEdit Margin="-5,0" Content="End Time" IsChecked="{Binding Path=TTendTimeEnabled, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </dxlc:LayoutGroup.HeaderTemplate>
+
+                            <dxlc:LayoutGroup Orientation="Vertical">
+                                <dxlc:LayoutItem Label="from">
+                                    <dxe:TextEdit Mask="t" MaskUseAsDisplayFormat="True" MaskType="DateTime"
+                                                  EditValue="{Binding Path=TTendTimeStart, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="to">
+                                    <dxe:TextEdit Mask="t" MaskUseAsDisplayFormat="True" MaskType="DateTime"
+                                                  EditValue="{Binding Path=TTendTimeEnd, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                                <dxlc:LayoutItem Label="step">
+                                    <dxe:TextEdit Mask="t" MaskUseAsDisplayFormat="True" MaskType="DateTime"
+                                                  EditValue="{Binding Path=TTendTimeStep, Source={x:Static properties:Settings.Default}, Mode=TwoWay}"/>
+                                </dxlc:LayoutItem>
+                            </dxlc:LayoutGroup>
+                        </dxlc:LayoutGroup>
+                    </dxlc:LayoutGroup>
+
+                    <dxlc:LayoutItem>
+                        <dxe:CheckEdit Margin="10,0,0,0" EditValue="{Binding Path=TTaddCode, Source={x:Static properties:Settings.Default}, Mode=TwoWay}">
+                            <TextBlock Text="Add Intraday trading code to code generators" TextWrapping="Wrap" Margin="5,0,0,0"/>
+                        </dxe:CheckEdit>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+
+            </dxlc:LayoutGroup>
+
+        </dxlc:LayoutControl>
+    </Grid>
+</UserControl>

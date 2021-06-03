@@ -1,0 +1,181 @@
+﻿<UserControl x:Name="tradeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:dxprg="http://schemas.devexpress.com/winfx/2008/xaml/propertygrid" xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+             xmlns:core="clr-namespace:TradersToolbox.Core;assembly=TradersToolbox.Core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             x:Class="TradersToolbox.Views.TradeView"
+             mc:Ignorable="d"
+             d:DesignHeight="200" d:DesignWidth="1200">
+    <Grid>
+
+        <dx:DXTabControl Padding="0">
+            <dx:DXTabItem Header="Positions">
+                <dxg:GridControl Name="PositionGrid" ItemsSource="{Binding PositionCollection}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}">
+                    <dxg:GridControl.View>
+                        <dxg:TableView ShowTotalSummary="False" AllowEditing="False" AllowColumnMoving="False" AutoWidth="True"
+                               BestFitMode="AllRows" BestFitMaxRowCount="5000" ShowGroupPanel="False" ShowIndicator="False"
+                               HighlightItemOnHover="True">
+
+                            <dxg:TableView.RowCellMenuCustomizations>
+                                <dxb:BarButtonItem Content="Close Position" Command="{Binding DataContext.ClosePositionCommand, ElementName=tradeView}"/>
+                                <dxb:BarButtonItem Content="Reverse Position" Command="{Binding DataContext.ReversePositionCommand, ElementName=tradeView}"/>
+                            </dxg:TableView.RowCellMenuCustomizations>
+
+                        </dxg:TableView>
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="Id" Header="Id">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Symbol" Header="Symbol" />
+                    <dxg:GridColumn FieldName="Type" Header="Type" />
+                    <dxg:GridColumn FieldName="Open_Time" Header="Entry Time" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat=""/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Open_Price" Header="Entry Price" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Close_Price" Header="Current Price" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Shares" Header="Shares" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Profit" Header="Profit" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat="{}{0:+#0.00;-#0.00;0.00}" HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                </dxg:GridControl>
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Transaction">
+                <dxg:GridControl Name="TransactionGrid" ItemsSource="{Binding TransactionCollection}" EnableSmartColumnsGeneration="True">
+                    <dxg:GridControl.View>
+                        <dxg:TableView ShowTotalSummary="False" AllowEditing="False" AllowColumnMoving="False" AutoWidth="True"
+                               BestFitMode="AllRows" BestFitMaxRowCount="5000" ShowIndicator="False"
+                               HighlightItemOnHover="True" />
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="Id" Header="Id">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Symbol" Header="Symbol" />
+                    <dxg:GridColumn FieldName="Type" Header="Type" />
+                    <dxg:GridColumn FieldName="Open_Time" Header="Time" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat=""/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Open_Price" Header="Price" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Shares" Header="Shares" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Profit" Header="Profit" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat="{}{0:+#0.00;-#0.00;0.00}" HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                </dxg:GridControl>
+                
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Summary">
+                <dxg:GridControl Name="SummaryGrid" ItemsSource="{Binding SummaryCollection}" EnableSmartColumnsGeneration="True">
+                    <dxg:GridControl.View>
+                        <dxg:TableView ShowTotalSummary="False" AllowEditing="False" AllowColumnMoving="False" AutoWidth="True"
+                               BestFitMode="AllRows" BestFitMaxRowCount="5000" ShowIndicator="False"
+                               HighlightItemOnHover="True" />
+                    </dxg:GridControl.View>
+
+                    <dxg:GridColumn FieldName="Date" />
+                    <dxg:GridColumn FieldName="Symbol" />
+                    <dxg:GridColumn FieldName="Realized">
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat="{}{0:+#0.00;-#0.00;0.00}" HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Unrealized" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat="{}{0:+#0.00;-#0.00;0.00}" HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Total" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat="{}{0:+#0.00;-#0.00;0.00}" HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                </dxg:GridControl>
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Open Orders">
+                <dxg:GridControl Name="OpenOrders" AutoGenerateColumns="AddNew" ItemsSource="{Binding OpenOrdersCollection}" SelectedItem="{Binding SelectedOpenOrderRow, Mode=TwoWay}">
+                    <dxg:GridControl.View>
+                    <dxg:TableView ShowTotalSummary="False" AllowEditing="False" AllowColumnMoving="False" AutoWidth="True"
+                               BestFitMode="AllRows" BestFitMaxRowCount="5000" ShowGroupPanel="False" ShowIndicator="False"
+                               HighlightItemOnHover="True">
+
+
+                        <dxg:TableView.RowCellMenuCustomizations>
+                            <dxb:BarButtonItem Content="Cancel Order" Command="{Binding DataContext.CancelOrderCommand, ElementName=tradeView}"/>
+                        </dxg:TableView.RowCellMenuCustomizations>
+
+                    </dxg:TableView>
+                    </dxg:GridControl.View>
+                    <dxg:GridColumn FieldName="Id" Header="Id" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Symbol" Header="Symbol" />
+                    <dxg:GridColumn FieldName="Type" Header="Type" />
+                    <dxg:GridColumn FieldName="Open_Time" Header="Entry Time" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat="" />
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Open_Price" Header="Entry Price" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Close_Price" Header="Current Price" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Shares" Header="Shares" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                    <dxg:GridColumn FieldName="Profit" Header="Profit" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:TextEditSettings DisplayFormat="{}{0:+#0.00;-#0.00;0.00}" HorizontalContentAlignment="Left"/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                </dxg:GridControl>    
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+        
+    </Grid>
+</UserControl>

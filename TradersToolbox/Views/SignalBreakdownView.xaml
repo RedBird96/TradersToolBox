@@ -1,0 +1,24 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             x:Class="TradersToolbox.Views.SignalBreakdownView"
+             xmlns:data="clr-namespace:TradersToolbox.Data"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="500">
+    <Grid>
+
+        <dxg:GridControl AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" DesignTimeDataObjectType="{x:Type data:SignalBreakdownItem}"
+                         ItemsSource="{Binding Items}" ShowBorder="False" SelectionMode="Row">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False" ShowSearchPanelMode="Always" ShowIndicator="False" AllowEditing="False"
+                               AutoWidth="True" AllowBestFit="True" BestFitMode="AllRows" UseEvenRowBackground="True" HighlightItemOnHover="True" ShowHorizontalLines="False"
+                               RowMinHeight="22"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+    </Grid>
+</UserControl>

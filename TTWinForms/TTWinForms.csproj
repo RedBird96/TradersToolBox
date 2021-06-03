@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{536EC60D-C0A4-4120-9239-309CDAE03FF5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TTWinForms</RootNamespace>
+    <AssemblyName>TTWinForms</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>.\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="FourGistForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FourGistForm.Designer.cs">
+      <DependentUpon>FourGistForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Graph.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Graph.Designer.cs">
+      <DependentUpon>Graph.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphHistogram.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphHistogram.Designer.cs">
+      <DependentUpon>GraphHistogram.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphIntraday.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphIntraday.Designer.cs">
+      <DependentUpon>GraphIntraday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphLast15Trades.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphLast15Trades.Designer.cs">
+      <DependentUpon>GraphLast15Trades.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphMC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphMC.Designer.cs">
+      <DependentUpon>GraphMC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphPoints.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphPoints.Designer.cs">
+      <DependentUpon>GraphPoints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphRobustness.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphRobustness.Designer.cs">
+      <DependentUpon>GraphRobustness.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GraphStock.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GraphStock.Designer.cs">
+      <DependentUpon>GraphStock.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FourGistForm.resx">
+      <DependentUpon>FourGistForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Graph.resx">
+      <DependentUpon>Graph.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphHistogram.resx">
+      <DependentUpon>GraphHistogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphIntraday.resx">
+      <DependentUpon>GraphIntraday.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphLast15Trades.resx">
+      <DependentUpon>GraphLast15Trades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphMC.resx">
+      <DependentUpon>GraphMC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphPoints.resx">
+      <DependentUpon>GraphPoints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphRobustness.resx">
+      <DependentUpon>GraphRobustness.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraphStock.resx">
+      <DependentUpon>GraphStock.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="TradersToolbox.Views.DialogWindows.PatternValuesWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TradersToolbox.Views.DialogWindows"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
+    <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Retrace Z:"/>
+            <TextBox Text="{Binding RetraceZ}" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Retrace percent:"/>
+            <TextBox Text="{Binding RetracePerO}" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Loose Percent:"/>
+            <TextBox Text="{Binding LoosePercent}" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Min_PatternWidthBars:"/>
+            <TextBox Text="{Binding MinWidth}" />
+        </StackPanel>
+        
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Max_PatternWidthBars:"/>
+            <TextBox Text="{Binding MaxWidth}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Swing Strength:"/>
+            <TextBox Text="{Binding SwingStrength}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Use Volume:"/>
+            <CheckBox IsChecked="{Binding UseVol}" />
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Margin="2">
+            <TextBlock Text="Color:"/>
+            <dxe:PopupColorEdit EditValue="{Binding Color, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

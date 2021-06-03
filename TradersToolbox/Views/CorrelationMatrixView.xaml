@@ -1,0 +1,55 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" 
+             xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal" x:Class="TradersToolbox.Views.CorrelationMatrixView"
+             mc:Ignorable="d"
+             MinHeight="100" MinWidth="200"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+
+        <dxg:GridControl AutoGenerateColumns="AddNew" dx:ScrollBarExtensions.ScrollBarMode="TouchOverlap"
+                         ItemsSource="{Binding DataTable}" ShowBorder="False" SelectionMode="Cell" >
+            <dxg:GridControl.View>
+                <dxg:TableView ShowGroupPanel="False" ShowIndicator="False" AllowEditing="False" BestFitMode="AllRows" ShowColumnHeaders="False" AutoWidth="True">
+                    <!--Loaded="TableView_Loaded" FormatConditionsSource="{Binding DataTable.Columns}">
+                    <dxg:TableView.FormatConditionGeneratorTemplate>
+                        <DataTemplate>
+                            <ContentControl>
+                                <dxg:FormatCondition FieldName="{Binding Path=ColumnNameR, RelativeSource={RelativeSource Self}}">
+                                    <dxg:FormatCondition.Format>
+                                        <dx:Format FontWeight="Bold" FontStyle="Italic" />
+                                    </dxg:FormatCondition.Format>
+                                </dxg:FormatCondition>
+                            </ContentControl>
+                        </DataTemplate>
+                    </dxg:TableView.FormatConditionGeneratorTemplate>-->
+                    
+                    <dxg:TableView.FormatConditions>
+                        <dxg:FormatCondition FieldName="Strategy" ValueRule="None">
+                            <dx:Format  FontWeight="Bold"/>
+                        </dxg:FormatCondition>
+                        <!--<dxg:ColorScaleFormatCondition MaxValue="1" MinValue="-1" FieldName="2" Expression="ToDecimal([2])">
+                            <dx:ColorScaleFormat ColorMin="#FF92B250" ColorMax="#FF63BE7B" ColorMiddle="#FFE57572"/>
+                        </dxg:ColorScaleFormatCondition>
+                        <dxg:FormatCondition Expression="Contains([1], '- - -')" FieldName="1">
+                            <dx:Format Foreground="#FFD8D8D8" TextDecorations="Strikethrough"/>
+                        </dxg:FormatCondition>
+                        <dxg:ColorScaleFormatCondition Expression="[Int]" PredefinedFormatName="RedWhiteBlueColorScale" />
+                        <dxg:FormatCondition Expression="[] Is Not Null" FieldName="">
+                            <dx:Format Background="#FF9ACCFF"/>
+                        </dxg:FormatCondition>
+                        <dxg:FormatCondition Expression="Contains(' ')" Fixed="True">
+                            <dx:Format Background="#FFF79646"/>
+                        </dxg:FormatCondition>-->
+                    </dxg:TableView.FormatConditions>
+                </dxg:TableView>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+    </Grid>
+</UserControl>

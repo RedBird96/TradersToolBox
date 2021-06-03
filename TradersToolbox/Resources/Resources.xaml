@@ -1,0 +1,236 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:TradersToolbox"
+                    xmlns:viewModels="clr-namespace:TradersToolbox.ViewModels"
+                    xmlns:views="clr-namespace:TradersToolbox.Views"
+                    xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion"
+                    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+                    xmlns:dxprg="http://schemas.devexpress.com/winfx/2008/xaml/propertygrid"
+                    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+                    xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys">
+    <Style TargetType="TextBox" x:Key="BottomTextStyle">
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="7,5"/>
+    </Style>
+    <!--#region Layout Items-->
+    <Style TargetType="dxdo:DocumentGroup">
+        <Setter Property="dxdo:AutoHideGroup.IsAutoHideCenter" Value="True" />
+    </Style>
+    <Style TargetType="dxdo:LayoutPanel" x:Key="LayoutPanelStyleBase">
+        <Setter Property="BindableName" Value="{Binding BindableName}"/>
+        <Setter Property="Caption" Value="{Binding DisplayName}" />
+        <Setter Property="CloseCommand" Value="{Binding CloseCommand}" />
+        <Setter Property="Closed" Value="{Binding IsClosed, Mode=TwoWay}" />
+        <Setter Property="IsActive" Value="{Binding IsActive}" />
+        <Setter Property="dxdo:DocumentGroup.ShowPinButton" Value="False" />
+    </Style>
+    <Style TargetType="{x:Type dxdo:LayoutPanel}" BasedOn="{StaticResource LayoutPanelStyleBase}"/>
+    <Style TargetType="{x:Type dxdo:DocumentPanel}" BasedOn="{StaticResource LayoutPanelStyleBase}">
+        <Setter Property="FooterDescription" Value="{Binding Footer}" />
+        <Setter Property="Description" Value="{Binding Description}" />
+    </Style>
+    <!--#endregion-->
+
+    <!--#region ViewModels-->
+    <DataTemplate DataType="{x:Type viewModels:QuotesViewModel}">
+        <dx:BackgroundPanel>
+            <views:QuotesView></views:QuotesView>
+        </dx:BackgroundPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:ChartWindowViewModel}">
+        <views:ChartWindowView>
+        </views:ChartWindowView>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:PortfolioViewModel}">
+        <views:PortfolioView>
+        </views:PortfolioView>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:LogViewModel}">
+        <views:LogView>
+        </views:LogView>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:TradeViewModel}">
+        <views:TradeView>
+        </views:TradeView>
+    </DataTemplate>
+    <!--<DataTemplate DataType="{x:Type viewModels:PropertiesViewModel}">
+        <dx:BackgroundPanel>
+            <DockPanel>
+                <ComboBox ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" DisplayMemberPath="Name"
+                          DockPanel.Dock="Top" BorderThickness="0"/>
+                <dxprg:PropertyGridControl
+                    x:Name="pGrid" BorderThickness="0"
+                    SelectedObject="{Binding Path=SelectedItem.Data}"
+                    ShowProperties="All"
+                    ExpandCategoriesWhenSelectedObjectChanged="True">
+                </dxprg:PropertyGridControl>
+            </DockPanel>
+        </dx:BackgroundPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:ErrorListViewModel}">
+        <dx:BackgroundPanel>
+            <dxb:BarManager>
+                <dxb:BarManager.Items>
+                    <dxb:BarCheckItem Name="bErrors" Content="0 Errors" Glyph="{Binding Error}"/>
+                    <dxb:BarCheckItem Name="bWarnings" Content="0 Warnings" Glyph="{Binding Warning}"/>
+                    <dxb:BarCheckItem Name="bMessages" Content="0 Messages" Glyph="{Binding Info}"/>
+                </dxb:BarManager.Items>
+                <dxb:BarManager.Bars>
+                    <dxb:Bar Caption="ErrorList" x:Name="ErrorList" UseWholeRow="True" AllowQuickCustomization="False" ShowDragWidget="False">
+                        <dxb:Bar.DockInfo>
+                            <dxb:BarDockInfo ContainerName="ErrorListBar" />
+                        </dxb:Bar.DockInfo>
+                        <dxb:Bar.ItemLinks>
+                            <dxb:BarCheckItemLink BarItemName="bErrors" BarItemDisplayMode="ContentAndGlyph"/>
+                            <dxb:BarItemLinkSeparator />
+                            <dxb:BarCheckItemLink BarItemName="bWarnings" BarItemDisplayMode="ContentAndGlyph" />
+                            <dxb:BarItemLinkSeparator />
+                            <dxb:BarCheckItemLink BarItemName="bMessages" BarItemDisplayMode="ContentAndGlyph" />
+                        </dxb:Bar.ItemLinks>
+                    </dxb:Bar>
+                </dxb:BarManager.Bars>
+                <DockPanel>
+                    <dxb:BarContainerControl x:Name="ErrorListBar" DockPanel.Dock="Top" />
+                    <Border>
+                        <dx:BackgroundPanel>
+                            <ListView Background="Transparent" BorderThickness="0">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.ColumnHeaderContainerStyle>
+                                            <Style TargetType="GridViewColumnHeader">
+                                                <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="IsHitTestVisible" Value="False" />
+                                            </Style>
+                                        </GridView.ColumnHeaderContainerStyle>
+                                        <GridViewColumn Width="15" />
+                                        <GridViewColumn Width="15"/>
+                                        <GridViewColumn Header="Description" Width="300" />
+                                        <GridViewColumn Header="File" Width="50" />
+                                        <GridViewColumn Header="Line" Width="50"/>
+                                        <GridViewColumn Header="Column" Width="50"/>
+                                        <GridViewColumn Header="Project" Width="50"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </dx:BackgroundPanel>
+                    </Border>
+                </DockPanel>
+            </dxb:BarManager>
+        </dx:BackgroundPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:OutputViewModel}">
+        <TextBox Style="{StaticResource BottomTextStyle}" Text="{Binding Text, Mode=OneTime}" />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:SearchResultsViewModel}">
+        <TextBox Style="{StaticResource BottomTextStyle}" Text="{Binding Text, Mode=OneTime}" />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModels:DocumentViewModel}">
+        <local:CodeViewPresenter CodeText="{Binding CodeLanguageText}" BorderThickness="0" />
+    </DataTemplate>-->
+    <!--#endregion-->
+
+    <!--#region Bars-->
+    <DataTemplate x:Key="checkItemTemplate">
+        <ContentControl>
+            <dxb:BarCheckItem Content="{Binding DisplayName}"
+                              IsChecked="{Binding Owner.IsOpened}"
+                              Glyph="{Binding Glyph}"
+                              GlyphAlignment="Top"
+                              BarItemDisplayMode="{Binding DisplayMode}"
+                              Command="{Binding Command}"/>
+        </ContentControl>
+    </DataTemplate>
+    <DataTemplate x:Key="itemTemplate">
+        <ContentControl>
+            <dxb:BarButtonItem Content="{Binding DisplayName}"
+                               Glyph="{Binding Glyph}"
+                               IsEnabled="{Binding IsEnabled}"
+                               KeyGesture="{Binding KeyGesture}"
+                               Command="{Binding Command}"
+                               BarItemDisplayMode="{Binding DisplayMode}"
+                               ToolTipService.ShowOnDisabled="True"
+                               />
+        </ContentControl>
+    </DataTemplate>
+    <DataTemplate x:Key="subItemTemplate">
+        <ContentControl>
+            <dxb:BarSubItem Content="{Binding DisplayName}"
+                            Glyph="{Binding Glyph}"
+                            GlyphAlignment="Left"
+                            BarItemDisplayMode="ContentAndGlyph"
+                            ItemLinksSource="{Binding Commands}"
+                            ItemTemplate="{StaticResource itemTemplate}"
+                            Command="{Binding Command}">
+            </dxb:BarSubItem>
+        </ContentControl>
+    </DataTemplate>
+    <DataTemplate x:Key="comboItemTemplate">
+        <ContentControl>
+            <dxb:BarEditItem EditWidth="66" EditValue="Debug">
+                <dxb:BarEditItem.EditStyle>
+                    <Style TargetType="dxe:ComboBoxEdit">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Height" Value="21"/>
+                    </Style>
+                </dxb:BarEditItem.EditStyle>
+                <dxb:BarEditItem.EditSettings>
+                    <dxe:ComboBoxEditSettings ItemsSource="{Binding Commands}" DisplayMember="DisplayName" IsTextEditable="False" ValueMember="DisplayName" />
+                </dxb:BarEditItem.EditSettings>
+            </dxb:BarEditItem>
+        </ContentControl>
+    </DataTemplate>
+    <DataTemplate x:Key="separatorTemplate">
+        <ContentControl>
+            <dxb:BarItemSeparator />
+        </ContentControl>
+    </DataTemplate>
+    <local:BarItemTemplateSelector x:Key="VS2019BarItemTemplateSelector"
+                        BarItemSeparatorTemplate="{StaticResource separatorTemplate}"
+                        BarSubItemTemplate="{StaticResource subItemTemplate}"
+                        BarCheckItemTemplate="{StaticResource checkItemTemplate}"
+                        BarComboBoxTemplate="{StaticResource comboItemTemplate}"
+                        BarItemTemplate="{StaticResource itemTemplate}" />
+    <DataTemplate x:Key="VS2019MainMenuSubItemTemplate">
+        <ContentControl>
+            <dxb:BarSubItem Content="{Binding DisplayName}"
+                            Glyph="{Binding Glyph}"
+                            GlyphAlignment="Left"
+                            BarItemDisplayMode="ContentAndGlyph"
+                            ItemLinksSource="{Binding Commands}"
+                            ItemTemplateSelector="{StaticResource VS2019BarItemTemplateSelector}"
+                            Command="{Binding Command}">
+            </dxb:BarSubItem>
+        </ContentControl>
+    </DataTemplate>
+    <DataTemplate x:Key="VS2019MainMenuTemplate">
+        <ContentControl Padding="0" Margin="0">
+            <dxb:Bar Caption="{Binding DisplayName}" IsMainMenu="{Binding IsMainMenu}"  dxb:MergingProperties.ElementMergingBehavior="All" >
+                <dxb:BarLinkContainerItem ItemTemplate="{StaticResource VS2019MainMenuSubItemTemplate}" ItemLinksSource="{Binding Commands}"/>
+            </dxb:Bar>
+        </ContentControl>
+    </DataTemplate>
+    <DataTemplate x:Key="VS2019ToobarTemplate">
+        <ContentControl Padding="0" Margin="0">
+            <dxb:Bar Caption="{Binding DisplayName}"
+                     ItemTemplateSelector="{StaticResource VS2019BarItemTemplateSelector}"
+                     AllowCustomizationMenu="False"
+                     AllowQuickCustomization="False"
+                     ItemLinksSource="{Binding Commands}">
+            </dxb:Bar>
+        </ContentControl>
+    </DataTemplate>
+    <local:BarTemplateSelector x:Key="VS2019BarTemplateSelector"
+                              MainMenuTemplate="{StaticResource VS2019MainMenuTemplate}"
+                              ToolbarTemplate="{StaticResource VS2019ToobarTemplate}" />
+    <!--#endregion-->
+
+</ResourceDictionary>

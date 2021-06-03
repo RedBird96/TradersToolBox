@@ -1,0 +1,57 @@
+﻿<dx:ThemedWindow
+    x:Class="TradersToolbox.Views.ActivationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    Title="Registration" Height="500" Width="700"
+    WindowStyle="ToolWindow"
+    MinWidth="700" MinHeight="500"
+    ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+    Loaded="ThemedWindow_Loaded"
+    >
+
+    <Grid Margin="40,40,40,30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="/TradersToolbox_x64_v3;component/Resources/TradersToolbox.png" />
+
+        <StackPanel HorizontalAlignment="Right" Grid.Column="1" VerticalAlignment="Center">
+            <TextBlock FontSize="35" FontWeight="Bold" Foreground="{StaticResource TTbrush}">Trader's Toolbox</TextBlock>
+            <TextBlock FontSize="16" FontWeight="Bold" Foreground="#FF7E7E7E" HorizontalAlignment="Right">Build Alpha © 2021</TextBlock>
+        </StackPanel>
+
+        <TextBlock Grid.Row="1" TextWrapping="Wrap" Margin="0,40,0,0" Grid.ColumnSpan="2">
+            Thank you for interest in our application!
+            <LineBreak/><LineBreak/>
+            Before you can use it user registration is required. If you are a new user or
+            you trying to run the application on a non-registered computer, please
+            contact with copyright holder and specify your e-mail, request code and
+            payment transaction identifier.
+            <LineBreak/><LineBreak/>
+            For access send email to:
+            <Hyperlink x:Name="emailHyperlink" NavigateUri="david@buildalpha.com" RequestNavigate="Hyperlink_RequestNavigate">
+                <Hyperlink.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy" Click="MenuItem_Click"/>
+                    </ContextMenu>
+                </Hyperlink.ContextMenu>
+                david@buildalpha.com
+            </Hyperlink>
+        </TextBlock>
+
+        <TextBlock Text="Request code" Margin="0,0,0,10" Grid.Row="2" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="RequestCodeTB" Grid.Row="3" IsReadOnly="True" HorizontalContentAlignment="Center"
+                 FontWeight="Bold"  Grid.ColumnSpan="2"/>
+        <Button Content="OK" Grid.Row="4" HorizontalAlignment="Center" MinWidth="100" Margin="0,20,0,0" Grid.ColumnSpan="2" Click="Button_Click"/>
+    </Grid>
+</dx:ThemedWindow>

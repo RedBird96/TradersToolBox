@@ -1,0 +1,107 @@
+﻿<UserControl xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"  x:Class="TradersToolbox.Views.OrderEntryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Grid Margin="5">
+        <StackPanel>
+            <TextBlock Text="EURUSD" FontSize="13" FontWeight="Bold"/>
+            <TextBlock Text="Euro / US Dollar" Opacity="0.8"/>
+
+            <Grid Margin="0,7">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Bid" HorizontalAlignment="Center" Opacity="0.8"/>
+                <TextBlock Text="Spread" HorizontalAlignment="Center" Opacity="0.8" Grid.Column="1"/>
+                <TextBlock Text="Ask" HorizontalAlignment="Center" Opacity="0.8" Grid.Column="2"/>
+
+                <TextBlock Text="1.2786" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold" Grid.Row="1"/>
+                <TextBlock Text="0.002" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
+                <TextBlock Text="1.2815" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold" Grid.Column="2" Grid.Row="1"/>
+            </Grid>
+
+            <Border Background="#30858585" CornerRadius="3" Padding="5" Margin="0,5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Type" Opacity="0.8" VerticalAlignment="Center"/>
+                    <dx:SimpleButton Content="-(" Grid.Column="1" />
+                    <TextBlock Text="Market" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+                    <dx:SimpleButton Content=")-"  Grid.Column="3"/>
+                </Grid>
+            </Border>
+
+            <Border Background="#30858585" CornerRadius="3" Padding="5" Margin="0,5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Buy/Sell" Opacity="0.8" VerticalAlignment="Center"/>
+                    <dx:SimpleButton Content="-(" Grid.Column="1" />
+                    <TextBlock Text="Buy" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+                    <dx:SimpleButton Content=")-"  Grid.Column="3"/>
+                </Grid>
+            </Border>
+
+            <Border Background="#30858585" CornerRadius="3" Padding="5" Margin="0,5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Position" Opacity="0.8" VerticalAlignment="Center"/>
+                    <dx:SimpleButton Content="-" Grid.Column="1" />
+                    <TextBlock Text="1,000,000" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+                    <dx:SimpleButton Content="+"  Grid.Column="3"/>
+                </Grid>
+            </Border>
+
+            <Border Background="#30858585" CornerRadius="3" Padding="5" Margin="0,5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Duration" Opacity="0.8" VerticalAlignment="Center"/>
+                    <dx:SimpleButton Content="-(" Grid.Column="1" />
+                    <TextBlock Text="Day Order" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+                    <dx:SimpleButton Content=")-"  Grid.Column="3"/>
+                </Grid>
+            </Border>
+
+            <dx:SimpleButton Content="PLACE ORDER" FontWeight="Bold"  Margin="0,9" Padding="0,9" Background="#FF3399DB" CornerRadius="3" BorderThickness="0"/>
+            
+            <!--<dxe:SpinEdit Margin="0,5">
+                <dxe:SpinButtonInfo SpinStyle="Horizontal"/>
+                <dxe:ImageButtonInfo Glyph="/TradersToolbox_x64_v3;component/Resources/TradersToolbox.png" IsLeft="True"/>
+                <dxe:ImageButtonInfo Glyph="/TradersToolbox_x64_v3;component/Resources/TradersToolbox.ico"/>
+            </dxe:SpinEdit>-->
+        </StackPanel>
+    </Grid>
+</UserControl>

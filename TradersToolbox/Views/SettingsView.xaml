@@ -1,0 +1,47 @@
+﻿<UserControl xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             x:Class="TradersToolbox.Views.SettingsView"
+             xmlns:views="clr-namespace:TradersToolbox.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="400" d:DesignWidth="500">
+    <Grid>
+
+        <dx:DXTabControl >
+            <dx:DXTabItem Header="Symbols">
+                <Grid>
+                    <views:SymbolsEditor/>
+                </Grid>
+            </dx:DXTabItem>
+            <dx:DXTabItem Header="Additional">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" MinHeight="40"/>
+                        <RowDefinition Height="auto" MinHeight="40"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <TextBlock Text="Database update period:" VerticalAlignment="Center"/>
+                    <dxe:ComboBoxEdit Grid.Column="1" MinWidth="150" Margin="20,0,0,0" ItemsSource="{Binding UpdatePeriods}" VerticalAlignment="Center"
+                                      EditValue="{DXBinding DBupdatePeriod, Mode=TwoWay}" IsTextEditable="False"/>
+
+                    <TextBlock Grid.Row="1" Text="Market: use extended hours:" VerticalAlignment="Center"/>
+                    <dxe:ToggleSwitch Grid.Row="1" Grid.Column="1" Margin="20,0,0,0"  CheckedStateContent="Yes" UncheckedStateContent="No" HorizontalAlignment="Left"
+                                      IsChecked="{Binding UseExtendedHours, Mode=TwoWay}"
+                                      VerticalAlignment="Center" ContentPlacement="Far" ToggleSwitchHeight="16" ToggleSwitchWidth="32"/>
+                </Grid>
+            </dx:DXTabItem>
+        </dx:DXTabControl>
+
+    </Grid>
+</UserControl>

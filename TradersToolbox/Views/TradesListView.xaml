@@ -1,0 +1,31 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+            xmlns:ViewModels="clr-namespace:TradersToolbox.ViewModels"
+            xmlns:data="clr-namespace:TradersToolbox.Data"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+            xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+            x:Class="TradersToolbox.Views.TradesListView"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Grid>
+        <dxg:GridControl SelectionMode="Row" ItemsSource="{Binding Trades}"
+                         DesignTimeDataObjectType="{x:Type data:TradesListItem}">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowTotalSummary="False" AllowEditing="False" AllowColumnMoving="False" AutoWidth="True"
+                               BestFitMode="AllRows" BestFitMaxRowCount="5000" ShowSearchPanelMode="Always" ShowGroupPanel="False" ShowIndicator="False"
+                               HighlightItemOnHover="True"/>
+            </dxg:GridControl.View>
+            <dxg:GridColumn FieldName="ModeStr" IsSmart="True" Header="Trade"/>
+            <dxg:GridColumn FieldName="EntryDT" IsSmart="True" Header="Entry on" EditSettings="{dxe:TextSettings DisplayFormat=g}"/>
+            <dxg:GridColumn FieldName="ExitDT" IsSmart="True" Header="Exit on" EditSettings="{dxe:TextSettings DisplayFormat=g}"/>
+            <dxg:GridColumn FieldName="EntryValue" IsSmart="True" Visible="{Binding IsRawColumnVisible}"/>
+            <dxg:GridColumn FieldName="ExitValue" IsSmart="True"  Visible="{Binding IsRawColumnVisible}"/>
+            <dxg:GridColumn FieldName="PosSize" IsSmart="True" Header="Position size"  Visible="{Binding IsRawColumnVisible}"/>
+            <dxg:GridColumn FieldName="Result" IsSmart="True"/>
+        </dxg:GridControl>
+    </Grid>
+</UserControl>
