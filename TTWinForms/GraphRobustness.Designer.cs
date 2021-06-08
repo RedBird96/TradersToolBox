@@ -69,6 +69,7 @@
             this.zedGraphControl1.ScrollMinY2 = 0D;
             this.zedGraphControl1.Size = new System.Drawing.Size(270, 523);
             this.zedGraphControl1.TabIndex = 0;
+            this.zedGraphControl1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.zedGraphControl1_MouseClick);
             // 
             // checkBoxRandom
             // 

@@ -482,5 +482,37 @@ namespace TTWinForms
                 comboBoxSeasonality.ForeColor = Graph.foreColorLight;
             }
         }
+
+        private void zedGraphControl1_MouseClick(object sender, MouseEventArgs e)
+        {
+            GraphPane graphingPane = zedGraphControl1.GraphPane;
+
+            object clickedObject;
+            int index = int.MinValue;
+            Graphics g = this.CreateGraphics();
+            LineItem nearestCurve = null;
+
+            bool isObjectFound = graphingPane.FindNearestObject(e.Location, g, out clickedObject, out index);
+            if (isObjectFound)
+            {
+                if (clickedObject is Legend)
+                    {
+                        Legend legend = graphingPane.Legend;
+                        if (legend != null && index >= 0)
+                        {
+                            int index_cur;
+
+                            ((LineItem)graphingPane.CurveList.ElementAt(0)).Line.Width = 3;
+                            for (index_cur = 1; index_cur < graphingPane.CurveList.Count; index_cur++)
+                            {
+                                ((LineItem)graphingPane.CurveList.ElementAt(index_cur)).Line.Width = 1;
+                            }
+                            nearestCurve = (LineItem)graphingPane.CurveList[index];
+                            nearestCurve.Line.Width = index == 0? 7 : 5;
+                        }
+                    }
+            }
+            ZoomResetUpdate();
+        }
     }
 }
